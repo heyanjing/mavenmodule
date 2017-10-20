@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="30"><!--monitorInterval间隔多久自动修改为最新配置-->
+    <properties>
+        <property name="LOG_HOME">D:/log4j/log4j2</property>
+        <property name="FILE_NAME">log4j2</property>
+    </properties>
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=blue, DEBUG=white, TRACE=white}"/>
+        </Console>
+
+        <RollingRandomAccessFile name="FILE_NAME" fileName="${LOG_HOME}/${FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout charset="utf-8" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+
+        <JDBC name="db" tableName="ibs_log">
+            <ConnectionFactory class="com.he.maven.module.db.MysqlConnMgr" method="getDatabaseConnection" />
+            <Column name="log_date" isEventTimestamp="true"/>
+            <Column name="log_file" pattern="%file" />
+            <Column name="log_line" pattern="%line" />
+            <Column name="log_thread" pattern="%thread" />
+            <Column name="log_level" pattern="%level" />
+            <Column name="log_message" pattern="%message"/>
+        </JDBC>
+
+
+    </Appenders>
+    <Loggers>
+        <!--向数据库中记录日志-->
+        <Logger name="com.he.maven.module" level="TRACE" additivity="true"><!--additivity 是否传递给父级-->
+            <AppenderRef  ref="db"/>
+        </Logger>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FILE_NAME"/>
+        </Root>
+    </Loggers>
+</Configuration>
