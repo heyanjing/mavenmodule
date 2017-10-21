@@ -136,6 +136,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public List<Dog> findAllxHqlCustom(Integer age) {
         List<Object> params = Lists.newArrayList();
+//        String hql = "SELECT p.id,p.`name`,p.age,p.birthday,p.state,d.`name` AS names FROM Person p,Dog d WHERE p.id=d.id";// MEINFO:2017/10/21 17:19 hql多表查询
         String hql = "from Person where 1=1";
         if (age != null) {
             hql += " and age< ?";
