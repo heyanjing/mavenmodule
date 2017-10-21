@@ -23,7 +23,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public Page<Person> pageByNamexSql(String name, Integer pageNumber, Integer pageSize) {
         Map<String, Object> params = Maps.newHashMap();
-        String sql = "SELECT * FROM person p WHERE 1=1";
+        String sql = "SELECT p.id,p.name,p.age,p.birthday FROM person p WHERE 1=1";
         if (name != null) {
             sql += " and p.`name` like :name";
             params.put("name", "%" + name + "%");
@@ -38,8 +38,8 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public List<Person> findAllxSql(Integer age) {
         List<Object> params = Lists.newArrayList();
-        String sql = "SELECT p.* FROM person p where 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
-//        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM person p where 1=1";// MEINFO:2017/10/21 14:38 要返回
+//        String sql = "SELECT p.* FROM person p where 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
+        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.name,(select d.name from dog d where d.name='dog1') as names FROM person p where 1=1";// MEINFO:2017/10/21 14:38 要返回
         if (age != null) {
             sql += " and p.age< ?";
             params.add(age);
@@ -71,7 +71,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public List<Person> findAllxHql(Integer age) {
         List<Object> params = Lists.newArrayList();
-        String hql = "from Person where 1=1";
+        String hql = "from Person p,Dog d where 1=1";
         if (age != null) {
             hql += " and age< ?";
             params.add(age);

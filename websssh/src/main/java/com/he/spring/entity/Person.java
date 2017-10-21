@@ -44,6 +44,6 @@ public class Person extends BaseEntityWithStringId {
 
     @Transient
     public String getNames() {
-        return this.name + "窝草";
+        return names==null?this.name + "窝草":names;
     }
 }
