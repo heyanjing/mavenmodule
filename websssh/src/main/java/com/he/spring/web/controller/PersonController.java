@@ -78,6 +78,11 @@ public class PersonController {
     public List<Person> findAllxHql(Integer age) {
         return this.personService.findAllxHql(age);
     }
+    @RequestMapping("/findAllxHqlName")
+    @ResponseBody
+    public List<Person> findAllxHqlName(String name) {
+        return this.personService.findAllxHqlName(name);
+    }
 
     @RequestMapping("/pageByNamexHql")
     @ResponseBody

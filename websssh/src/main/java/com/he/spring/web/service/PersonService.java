@@ -20,9 +20,54 @@ public class PersonService {
     private PersonDao personDao;
 
     public Object test() {
-        Person p = this.personDao.getByIdx3("a2b7850d-4177-44cf-9139-04979969f84a");
-        log.warn("{}", p);
-        return  p;
+//        Person p = this.personDao.getByIdx3("a2b7850d-4177-44cf-9139-04979969f84a");
+//        log.warn("{}", p);
+//        return  p;
+
+//        Sort sort = new Sort(Sort.Direction.DESC, "age");
+//        Pageable pageable = new PageRequest(1, 2, sort);
+//        Page<Person> page = this.personDao.findAll(pageable);
+//        return  page;
+
+//        final String tname, final String sex, final String degree, final String orgname
+//        Sort sort = new Sort(Sort.Direction.DESC, "age");
+//        sort = sort.and(new Sort(Sort.Direction.ASC, "birthday"));
+//        Pageable pageable = new PageRequest(0, 2, sort);
+//        this.personDao.findAll(new Specification<Person>() {
+//            @Override
+//            public Predicate toPredicate(Root<Person> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//
+//                Path<String> namepath = root.get("name");
+//                Path<String> sexpath = root.get("sex");
+//                Path<String> degreepath = root.get("degree");
+//                List<Predicate> list = new ArrayList<Predicate>();
+//                if (tname != null && !"".equals(tname)) {
+//                    list.add(cb.like(namepath, "%" + tname + "%"));
+//                }
+//                if (sex != null && !"".equals(sex)) {
+//                    list.add(cb.like(sexpath, "%" + sex + "%"));
+//                }
+//                if (degree != null && !"".equals(degree)) {
+//                    list.add(cb.like(degreepath, "%" + degree + "%"));
+//                }
+//                if (orgname != null && !"".equals(orgname)) {
+//                    Path<String> orgnamepath = root.get("org").get("orgname");
+//                    list.add(cb.like(orgnamepath, "%" + orgname + "%"));
+//                }
+//                Predicate[] p = new Predicate[list.size()];
+//                return cb.and(list.toArray(p));
+//            }
+//        }, pageable);
+//        return null;
+
+//        Sort sort = new Sort(Sort.Direction.DESC, "age");
+//        sort=sort.and(new Sort(Sort.Direction.ASC, "birthday"));
+//        Pageable pageable = new PageRequest(0, 2, sort);
+//        Page<Person> page = this.personDao.pageByAge(1, pageable);
+//        return  page;
+
+
+        return null;
     }
 
     /*
@@ -63,6 +108,10 @@ public class PersonService {
 
     public List<Person> findAllxHql(Integer age) {
         return this.personDao.findAllxHql(age);
+    }
+
+    public List<Person> findAllxHqlName(String name) {
+        return this.personDao.findAllxHqlName(name);
     }
 
     public Page<Person> pageByNamexHql(String name, Integer pageNumber, Integer pageSize) {

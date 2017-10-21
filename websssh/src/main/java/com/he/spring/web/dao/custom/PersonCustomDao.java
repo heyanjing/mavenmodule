@@ -16,6 +16,8 @@ public interface PersonCustomDao<Person> {
 
     public List<Person> findAllxHql(Integer age);
 
+    public List<Person> findAllxHqlName(String name);
+
     public Page<Dog> pageByNamexSqlCustom(String name, Integer pageNumber, Integer pageSize);
 
     public Page<Dog> pageByNamexHqlCustom(String name, Integer pageNumber, Integer pageSize);
@@ -28,10 +30,9 @@ public interface PersonCustomDao<Person> {
 
     public int executeByAgexHql(Integer age);
 
-    public Page<Map<String,Object>> pageByNamexSqlCustomMap(String name, Integer pageNumber, Integer pageSize);
+    public Page<Map<String, Object>> pageByNamexSqlCustomMap(String name, Integer pageNumber, Integer pageSize);
 
-    public List<Map<String,Object>> findAllxSqlCustomMap(Integer age);
-
+    public List<Map<String, Object>> findAllxSqlCustomMap(Integer age);
 
 
 }

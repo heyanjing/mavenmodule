@@ -50,10 +50,11 @@
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                <!--二级缓存 一般不开启 -->
+                <!--二级缓存 一般不开启
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
                 <prop key="cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                 <prop key="hibernate.cache.use_query_cache">false</prop>
+                -->
             </props>
         </property>
     </bean>

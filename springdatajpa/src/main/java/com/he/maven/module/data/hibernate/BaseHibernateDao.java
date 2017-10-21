@@ -1,5 +1,6 @@
 package com.he.maven.module.data.hibernate;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.he.maven.module.data.util.Querys;
 import com.he.maven.module.utils.Constants;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -108,6 +110,7 @@ public class BaseHibernateDao<T> {
             count_query = this.createHqlQuery(count_hql, params);
             data_query = this.createHqlQuery(sql, params);
         }
+        List list = data_query.list();
 
         // XXX 看前端框架的分页第一页传入的pageNumber是0还是1(假设为1)
         if (pageNumber < 1) {//如果为0，将该参数改为0 ，Constants.PageInfo.PAGE_NUMBER=0
@@ -270,8 +273,6 @@ public class BaseHibernateDao<T> {
 
     @SuppressWarnings("unchecked")
     public <E> List<E> findEntityClassBySql(String sql, Class<E> entityClass, Object... params) {
-        List list = this.createSqlQuery(sql, params).list();
-        log.warn("{}", list);
         return this.createSqlQuery(sql, params).setResultTransformer(Transformers.aliasToBean(entityClass)).list();
     }
 
@@ -283,20 +284,36 @@ public class BaseHibernateDao<T> {
 
     ///////////////////////// hql////////////////////////////////////
     @SuppressWarnings("unchecked")
-    public <E> List<E> findEntityClassByHql(String hql) {
-        return this.createHqlQuery(hql, null).list();
+    public <E> List<E> findEntityClassByHql(String hql, Class<E> clazz) {
+        List list = this.createHqlQuery(hql, null).list();
+        return this.copyProp(list, clazz);
     }
 
     @SuppressWarnings("unchecked")
-    public <E> List<E> findEntityClassByHql(String hql, Object... params) {
-        return this.createHqlQuery(hql, params).list();
+    public <E> List<E> findEntityClassByHql(String hql, Class<E> clazz, Object... params) {
+        List list = this.createHqlQuery(hql, params).list();
+        return this.copyProp(list, clazz);
     }
 
     @SuppressWarnings("unchecked")
-    public <E> List<E> findEntityClassByHql(String hql, Map<String, ?> params) {
-        return this.createHqlQuery(hql, params).list();
+    public <E> List<E> findEntityClassByHql(String hql, Class<E> clazz, Map<String, ?> params) {
+        List list = this.createHqlQuery(hql, params).list();
+        return this.copyProp(list, clazz);
     }
 
+    private <E> List<E> copyProp(List<Object> list, Class<E> clazz) {
+        List<E> result = Lists.newArrayList();
+        for (Object obj : list) {
+            try {
+                E e = clazz.newInstance();
+                BeanUtils.copyProperties(obj,e);
+                result.add(e);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return result;
+    }
     // ----------------------------------------------------------------
     // -----------------page by entityClass ---------------------------------
     // ----------------------------------------------------------------
@@ -315,7 +332,12 @@ public class BaseHibernateDao<T> {
             pageSize = Constants.PageInfo.PAGE_SIZE;
         }
         Long count = Long.valueOf(count_query.uniqueResult().toString());
+
+//        Query query = data_query;
+//        List<E> data = query.list();
+
         List<E> data = data_query.setResultTransformer(Transformers.aliasToBean(entityClass)).list();
+
         // List<E> data1 = data_query.setResultTransformer(new AliasToBeanResultTransformer(entityClass)).list();
         // List<E> data2 = data_query.setResultTransformer(new AliasToBeanResultTransformer(entityClass)).list();
         //
@@ -334,7 +356,7 @@ public class BaseHibernateDao<T> {
 
     ///////////////////////// hql////////////////////////////////////
     @SuppressWarnings("unchecked")
-    public <E> Page<E> pageEntityClassByHql(String sql, Map<String, String> sort, Object params, Integer pageNumber, Integer pageSize) {
+    public <E> Page<E> pageEntityClassByHql(String sql, Map<String, String> sort, Class<E> clazz, Object params, Integer pageNumber, Integer pageSize) {
         Map<String, Query> queryMap = this.createPageQueryByHql(sql, sort, params, pageNumber, pageSize);
         Query count_query = queryMap.get("count_query");
         Query data_query = queryMap.get("data_query");
@@ -346,16 +368,17 @@ public class BaseHibernateDao<T> {
             pageSize = Constants.PageInfo.PAGE_SIZE;
         }
         Long count = Long.valueOf(count_query.uniqueResult().toString());
-        List<E> data = data_query.list();
-        return new PageImpl<E>(data, new PageRequest(pageNumber - 1, pageSize), count);
+        List data = data_query.list();
+        List<E> list = this.copyProp(data, clazz);
+        return new PageImpl<E>(list, new PageRequest(pageNumber - 1, pageSize), count);
     }
 
-    public <E> Page<E> pageEntityClassByHql(String sql, Map<String, ?> params, Integer pageNumber, Integer pageSize) {
-        return this.pageEntityClassByHql(sql, null, params, pageNumber, pageSize);
+    public <E> Page<E> pageEntityClassByHql(String sql, Class<E> clazz, Map<String, ?> params, Integer pageNumber, Integer pageSize) {
+        return this.pageEntityClassByHql(sql, null,clazz, params, pageNumber, pageSize);
     }
 
-    public <E> Page<E> pageEntityClassByHql(String sql, Integer pageNumber, Integer pageSize, Object... params) {
-        return this.pageEntityClassByHql(sql, null, params, pageNumber, pageSize);
+    public <E> Page<E> pageEntityClassByHql(String sql, Class<E> clazz, Integer pageNumber, Integer pageSize, Object... params) {
+        return this.pageEntityClassByHql(sql, null,clazz, params, pageNumber, pageSize);
     }
 
     // ----------------------------------------------------------------

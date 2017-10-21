@@ -28,6 +28,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             sql += " and p.`name` like :name";
             params.put("name", "%" + name + "%");
         }
+        sql+=" order by name asc";
         return super.pageBySql(sql, params, pageNumber, pageSize);
     }
 
@@ -37,11 +38,14 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public List<Person> findAllxSql(Integer age) {
         List<Object> params = Lists.newArrayList();
-        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM person p where 1=1";
+        String sql = "SELECT p.* FROM person p where 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
+//        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM person p where 1=1";// MEINFO:2017/10/21 14:38 要返回
         if (age != null) {
             sql += " and p.age< ?";
             params.add(age);
         }
+
+        sql+=" order by name asc";
         return super.findBySql(sql, params.toArray());
 
     }
@@ -57,6 +61,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             hql += " and name like :name";
             params.put("name", "%" + name + "%");
         }
+        hql+=" order by name asc";
         return super.pageByHql(hql, params, pageNumber, pageSize);
     }
 
@@ -71,20 +76,35 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             hql += " and age< ?";
             params.add(age);
         }
+        hql+=" order by name asc";
+        return super.findByHql(hql, params.toArray());
+    }
+
+    @Override
+    public List<Person> findAllxHqlName(String name) {
+        List<Object> params = Lists.newArrayList();
+        String hql = "from Person where 1=1";
+        if (name != null) {
+            hql += " and name like ?";
+            params.add("%"+name+"%");
+        }
+        hql+=" order by name asc";
         return super.findByHql(hql, params.toArray());
     }
 
     /*
-    * custom
-    * */
+        * custom
+        * */
     @Override
     public Page<Dog> pageByNamexSqlCustom(String name, Integer pageNumber, Integer pageSize) {
         Map<String, Object> params = Maps.newHashMap();
-        String sql = "SELECT * FROM Person p WHERE 1=1";
+        String sql = "SELECT p.id ,p.age ,p.birthday ,p.name  FROM Person p WHERE 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
+//        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM Person p WHERE 1=1";// MEINFO:2017/10/21 14:39 要返回
         if (name != null) {
             sql += " and p.`name` like :name";
             params.put("name", "%" + name + "%");
         }
+        sql+=" order by name asc";
         return super.pageEntityClassBySql(sql, params, Dog.class, pageNumber, pageSize);
     }
 
@@ -96,17 +116,20 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             hql += " and name like :name";
             params.put("name", "%" + name + "%");
         }
-        return super.pageEntityClassByHql(hql, params, pageNumber, pageSize);
+       hql+=" order by name asc";
+        return super.pageEntityClassByHql(hql,Dog.class, params, pageNumber, pageSize);
     }
 
     @Override
     public List<Dog> findAllxSqlCustom(Integer age) {
         List<Object> params = Lists.newArrayList();
-        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM person p where 1=1";
+        String sql = "SELECT p.id ,p.age ,p.birthday ,p.name FROM person p where 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
+//        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.`name` AS name FROM person p where 1=1";// MEINFO:2017/10/21 14:39 要返回
         if (age != null) {
             sql += " and p.age< ?";
             params.add(age);
         }
+        sql+=" order by name asc";
         return super.findEntityClassBySql(sql, Dog.class, params.toArray());
     }
 
@@ -118,7 +141,8 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             hql += " and age< ?";
             params.add(age);
         }
-        return super.findEntityClassByHql(hql, params.toArray());
+        hql+=" order by name asc";
+        return super.findEntityClassByHql(hql,Dog.class, params.toArray());
     }
     /*
     * map
@@ -132,6 +156,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             sql += " and p.`name` like :name";
             params.put("name", "%" + name + "%");
         }
+        sql+=" order by name asc";
         return super.pageListMapBySql(sql, params, pageNumber, pageSize);
     }
 
@@ -144,6 +169,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
             sql += " and p.age< ?";
             params.add(age);
         }
+        sql+=" order by name asc";
         return super.findListMapBySql(sql, params.toArray());
     }
 
