@@ -19,6 +19,12 @@ public class PersonService {
     @Autowired
     private PersonDao personDao;
 
+    public Object test() {
+        Person p = this.personDao.getByIdx3("a2b7850d-4177-44cf-9139-04979969f84a");
+        log.warn("{}", p);
+        return  p;
+    }
+
     /*
     *  person相关
     */
@@ -27,7 +33,6 @@ public class PersonService {
         Person p1 = personDao.save(person);//保存
         p1.setName("我操2");
         Person p2 = personDao.save(p1);//更新
-
 
 //        Person p1 = this.personDao.get("adc68578-12ab-4e65-b918-0b16fc803606");//获取
 //        p1.setName("我操5");
@@ -39,6 +44,10 @@ public class PersonService {
 
     public List<Person> findAll() {
         return this.personDao.findAll();
+    }
+
+    public Person getByIdSql(String id) {
+        return this.personDao.getByIdSql(id);
     }
 
     /*

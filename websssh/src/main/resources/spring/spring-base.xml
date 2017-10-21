@@ -60,7 +60,7 @@
     <!-- 配置 SpringData
      Spring 初始化容器时将会扫描 base-package 指定的包目录及其子目录，为继承 Repository 或其子接口的接口创建代理对象
      -->
-    <jpa:repositories base-package="com.he.spring.web.dao" entity-manager-factory-ref="entityManagerFactory" factory-class="com.he.maven.module.data.repo.BaseRepoFactoryBean"/>
+    <jpa:repositories base-package="com.he.spring.web.dao" entity-manager-factory-ref="entityManagerFactory" factory-class="com.he.maven.module.data.repo.BaseRepoFactoryBean" />
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>

@@ -1,6 +1,7 @@
 package com.he.spring.web.controller;
 
 import com.he.maven.module.utils.Dates;
+import com.he.maven.module.utils.Randoms;
 import com.he.spring.entity.Dog;
 import com.he.spring.entity.Person;
 import com.he.spring.web.service.PersonService;
@@ -27,16 +28,30 @@ public class PersonController {
 
     private Integer count = 1;
 
-    @RequestMapping("/save")
+
+    @RequestMapping("/test")
     @ResponseBody
-    public Person save() {
-        Person p = new Person("name" + Dates.newDateString("yyyy-MM-dd_HH:mm:ss.SSS"), count++, Dates.newDate());
-        return this.personService.save(p);
+    public Object test() {
+        return this.personService.test();
     }
 
     /*
-    * data
-    * */
+     * data
+     * */
+    @RequestMapping("/save")
+    @ResponseBody
+    public Person save() {
+        Person p = new Person("name" + Dates.newDateString("yyyy-MM-dd_HH:mm:ss.SSS"), count++, Dates.newDate(), Randoms.getInt(5));
+        return this.personService.save(p);
+    }
+
+    @RequestMapping("/getByIdSql")
+    @ResponseBody
+    public Person getByIdSql(String id) {
+        return this.personService.getByIdSql(id);
+    }
+
+
     @RequestMapping("/findAll")
     @ResponseBody
     public List<Person> findAll() {

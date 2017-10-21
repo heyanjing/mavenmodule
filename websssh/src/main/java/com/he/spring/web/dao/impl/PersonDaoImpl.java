@@ -154,9 +154,10 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     @Override
     public int executeByAgexSql(Integer age) {
         Map<String, Object> params = Maps.newHashMap();
-        String sql = " update Person set name=:name where 1=1 ";
+        String sql = " update Person set name=:name,state=:state where 1=1 ";
+        params.put("name", "name" + age);
+        params.put("state", age);
         if (age != null) {
-            params.put("name", "name" + age);
             sql += " and age=:age";
             params.put("age", age);
         }
