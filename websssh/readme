@@ -9,6 +9,16 @@ http://localhost:8080/spring/dog/pageByName?name=我&pageNumber=1&pageSize=2
 http://localhost:8080/spring/dog/pageByNameCustom?name=%E6%88%91&pageNumber=1&pageSize=2
 http://localhost:8080/spring/dog/findByNameCustom?name=1
 
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------
 ------------------------person-----------------------------------------
 ------------------------------------------------------------------------

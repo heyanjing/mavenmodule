@@ -110,8 +110,6 @@ public class BaseHibernateDao<T> {
             count_query = this.createHqlQuery(count_hql, params);
             data_query = this.createHqlQuery(sql, params);
         }
-        List list = data_query.list();
-
         // XXX 看前端框架的分页第一页传入的pageNumber是0还是1(假设为1)
         if (pageNumber < 1) {//如果为0，将该参数改为0 ，Constants.PageInfo.PAGE_NUMBER=0
             pageNumber = Constants.PageInfo.PAGE_NUMBER;
