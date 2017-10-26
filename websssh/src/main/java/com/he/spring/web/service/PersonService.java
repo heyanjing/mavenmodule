@@ -2,6 +2,7 @@ package com.he.spring.web.service;
 
 import com.he.spring.entity.Dog;
 import com.he.spring.entity.Person;
+import com.he.spring.web.dao.DogDao;
 import com.he.spring.web.dao.PersonDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,19 @@ public class PersonService {
 
     @Autowired
     private PersonDao personDao;
+    @Autowired
+    private DogDao dogDao;
 
     public Object test() {
+
+////        测试事务
+//        this.personDao.save(new Person("测试",1,new Date(),1));
+//        if(true){
+//            throw new RuntimeException("测试异常");
+//        }
+//        this.dogDao.save(new Dog("测试",1,new Date()));
+
+
 //        Person p = this.personDao.getByIdx3("a2b7850d-4177-44cf-9139-04979969f84a");
 //        log.warn("{}", p);
 //        return  p;

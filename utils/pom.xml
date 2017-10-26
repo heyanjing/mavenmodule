@@ -14,6 +14,9 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--
+        自定义
+        -->
         <dependency>
             <groupId>com.he.maven.module</groupId>
             <artifactId>log4j2</artifactId>

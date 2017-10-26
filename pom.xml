@@ -16,6 +16,7 @@
         <module>utils</module>
         <module>springdatajpa</module>
         <module>websssh</module>
+        <module>springaop</module>
     </modules>
 
     <properties>
@@ -45,6 +46,7 @@
         <hibernate.version>5.1.5.Final</hibernate.version>
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
 
+        <aspectj.version>1.8.12</aspectj.version>
 
 
 

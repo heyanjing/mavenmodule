@@ -5,6 +5,8 @@ import com.he.maven.module.utils.Randoms;
 import com.he.spring.entity.Dog;
 import com.he.spring.entity.Person;
 import com.he.spring.web.service.PersonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,9 +23,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
+    private static final Logger log = LoggerFactory.getLogger(PersonController.class);
 
     @Autowired
     private PersonService personService;
+
 
 
     private Integer count = 1;
@@ -78,6 +82,7 @@ public class PersonController {
     public List<Person> findAllxHql(Integer age) {
         return this.personService.findAllxHql(age);
     }
+
     @RequestMapping("/findAllxHqlName")
     @ResponseBody
     public List<Person> findAllxHqlName(String name) {
