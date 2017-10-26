@@ -48,6 +48,8 @@
 
         <aspectj.version>1.8.12</aspectj.version>
 
+        <quartz.version>2.2.1</quartz.version>
+
 
 
     </properties>

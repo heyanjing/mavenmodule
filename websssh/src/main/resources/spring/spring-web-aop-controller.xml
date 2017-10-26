@@ -4,11 +4,9 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-    <!--开启aop注解
-       proxy-target-class="true" 指定使用cglib动态代理aop，即使注入的类实现了接口也可以直接注入而不需要用接口注入
-       默认情况:注入的是接口则使用jdk代理,
-                        类则使用cglib
-       -->
-    <!--开启对controller层的aop，对应的切面 ControllerAspect -->
+    <!--开启aop注解 proxy-target-class="true" 指定使用cglib动态代理aop，即使注入的类实现了接口也可以直接注入而不需要用接口注入 默认情况:注入的是接口则使用jdk代理, 类则使用cglib -->
+    <!--
+        开启对controller层的aop，对应的切面 ControllerAspect
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+    -->
 </beans>

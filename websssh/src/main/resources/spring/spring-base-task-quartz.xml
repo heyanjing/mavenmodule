@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        quartz框架
+        多个定时任务
+    -->
+<!--
+
+    <bean id="jc" class="com.he.spring.web.task.dynamic.JobCustom"/>
+    &lt;!&ndash;<bean id="jq" class="com.he.spring.web.task.dynamic.JobQuartz"/>&ndash;&gt;
+
+    <bean name="jqJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.he.spring.web.task.dynamic.JobQuartz" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="timeout" value="0" />
+            </map>
+        </property>
+    </bean>
+    <bean id="jcJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        &lt;!&ndash; 调用的类  &ndash;&gt;
+        <property name="targetObject" ref="jc"/>
+        &lt;!&ndash; 调用类中的方法  &ndash;&gt;
+        <property name="targetMethod" value="execute"/>
+        &lt;!&ndash; 是否并发  &ndash;&gt;
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    &lt;!&ndash; SimpleTriggerBean 触发器 &ndash;&gt;
+    <bean id="jcSimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="jcJob" />
+        <property name="startDelay" value="0" />&lt;!&ndash; 调度工厂实例化后，经过0秒开始执行调度 &ndash;&gt;
+        <property name="repeatInterval" value="2000" />&lt;!&ndash; 每2秒调度一次 &ndash;&gt;
+    </bean>
+    &lt;!&ndash; SimpleTriggerBean 触发器 &ndash;&gt;
+    <bean id="jqSimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="jqJob" />
+        <property name="startDelay" value="0" />&lt;!&ndash; 调度工厂实例化后，经过0秒开始执行调度 &ndash;&gt;
+        <property name="repeatInterval" value="2000" />&lt;!&ndash; 每2秒调度一次 &ndash;&gt;
+    </bean>
+
+    &lt;!&ndash; CronTriggerBean触发器 &ndash;&gt;
+    <bean id="jcCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jcJob" />
+      &lt;!&ndash;每天12:00运行一次&ndash;&gt;
+        <property name="cronExpression" value="*/4 * * * * ?" />
+    </bean>
+    &lt;!&ndash; CronTriggerBean触发器 &ndash;&gt;
+    <bean id="jqCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jqJob" />
+      &lt;!&ndash;每天12:00运行一次&ndash;&gt;
+        <property name="cronExpression" value="*/4 * * * * ?" />
+    </bean>
+
+    &lt;!&ndash; 调度器 &ndash;&gt;
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+              &lt;!&ndash;
+                <ref bean="jcSimpleTrigger" />
+                <ref bean="jqSimpleTrigger" />
+                &ndash;&gt;
+
+                <ref bean="jcCronTrigger" />
+                <ref bean="jqCronTrigger" />
+
+            </list>
+        </property>
+    </bean>
+-->
+
+</beans>
