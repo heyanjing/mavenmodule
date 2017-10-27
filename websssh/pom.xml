@@ -28,6 +28,11 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.he.maven.module</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <!--spring基础-->

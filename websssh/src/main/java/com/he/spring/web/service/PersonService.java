@@ -86,10 +86,12 @@ public class PersonService {
     *  person相关
     */
     public Person save(Person person) {
-        person.setName("我操1");
-        Person p1 = personDao.save(person);//保存
-        p1.setName("我操2");
-        Person p2 = personDao.save(p1);//更新
+        Person p2 = this.personDao.save(person);
+
+//        person.setName("我操1");
+//        Person p1 = personDao.save(person);//保存
+//        p1.setName("我操2");
+//        Person p2 = personDao.save(p1);//更新
 
 //        Person p1 = this.personDao.get("adc68578-12ab-4e65-b918-0b16fc803606");//获取
 //        p1.setName("我操5");

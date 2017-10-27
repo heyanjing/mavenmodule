@@ -39,7 +39,7 @@ public class PersonDaoImpl extends BaseHibernateDao<Person> implements PersonCus
     public List<Person> findAllxSql(Integer age) {
         List<Object> params = Lists.newArrayList();
 //        String sql = "SELECT p.* FROM person p where 1=1";// MEINFO:2017/10/21 14:42 这种写法也可以
-        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.name,(select d.name from dog d where d.name='dog1') as names FROM person p where 1=1";// MEINFO:2017/10/21 14:38 要返回
+        String sql = "SELECT p.id AS id,p.age AS age,p.birthday as birthday,p.name,(select d.name from dog d where d.name='dog9') as names FROM person p where 1=1";// MEINFO:2017/10/21 14:38 要返回
         if (age != null) {
             sql += " and p.age< ?";
             params.add(age);

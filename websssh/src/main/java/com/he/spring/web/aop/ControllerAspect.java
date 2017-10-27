@@ -22,7 +22,7 @@ public class ControllerAspect {
 
     private String prefix = "controller======";
 
-    @Autowired
+    @Autowired(required = false)
     HttpServletRequest request;
 
     @Pointcut("execution(* com.he.spring.web.controller..*.*(..))")
@@ -32,29 +32,31 @@ public class ControllerAspect {
     //在目标方法开始之前执行
     @Before("pointcut()")
     public void before(JoinPoint joinPoint) {
-         log.warn(this.prefix+"before前置通知");
+        log.warn(this.prefix + "before前置通知");
         Signature signature = joinPoint.getSignature();
         String method = signature.getDeclaringTypeName() + "的-->" + signature.getName() + "方法-->";
         List<Object> args = Arrays.asList(joinPoint.getArgs());
-         log.warn(this.prefix+method + "参数" + args.toString());
-        log.error(this.prefix +"web的sessionId----->" + request.getSession().getId());
+        log.warn(this.prefix + method + "参数" + args.toString());
+        if (request != null) {
+            log.error(this.prefix + "web的sessionId----->" + request.getSession().getId());
+        }
     }
 
     //在目标方法执行后执行（发生异常也执行） 不能获取目标方法执行后的结果
     @After("pointcut()")
     public void after(JoinPoint joinPoint) {
-         log.warn(this.prefix+"after后置通知");
+        log.warn(this.prefix + "after后置通知");
     }
 
     //在目标方法正常执行(不出异常)完后执行，returnValue为目标方法的返回结果
     @AfterReturning(pointcut = "pointcut()", returning = "returnValue")
     public void afterReturning(JoinPoint joinPoint, Object returnValue) {
-         log.warn(this.prefix+"afterReturning返回通知");
+        log.warn(this.prefix + "afterReturning返回通知");
     }
 
     //在目标方法执行时出现异常时执行，可以指定出现特定异常才执行
     @AfterThrowing(pointcut = "pointcut()", throwing = "e")
     public void afterThrowing(JoinPoint joinPoint, Exception e) {
-         log.warn(this.prefix+"afterThrowing异常通知");
+        log.warn(this.prefix + "afterThrowing异常通知");
     }
 }
