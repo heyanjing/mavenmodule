@@ -18,6 +18,7 @@
         <module>websssh</module>
         <module>springaop</module>
         <module>springtest</module>
+        <module>springexceptionhandl</module>
     </modules>
 
     <properties>

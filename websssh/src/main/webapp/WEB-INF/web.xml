@@ -52,6 +52,21 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!--
+        对应状态码需要访问的url地址
+    -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error/403</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error/500</location>
+    </error-page>
 
     <!--
     首页
@@ -59,7 +74,6 @@
     <welcome-file-list>
         <welcome-file>/</welcome-file>
     </welcome-file-list>
-
 
 
 </web-app>

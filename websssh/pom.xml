@@ -33,6 +33,12 @@
             <artifactId>spring-test</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.he.maven.module</groupId>
+            <artifactId>spring-exception-handl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
 
         <!--spring基础-->
