@@ -11,7 +11,7 @@
 -->
 
     <!--&lt;!&ndash;
-        springmvc全局异常处理
+        springmvc全局异常处理 方式一
         com.he.maven.module.exhandle.SMExceptionResolver
         org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
         com.he.maven.module.exhandle.GlobalExceptionHandlerSimple
@@ -39,6 +39,8 @@
         </property>
     </bean>
 -->
-   <!-- <bean class="com.he.maven.module.exhandle.GlobalExceptionHandlerCustom"/>-->
+   <!-- springmvc全局异常处理 方式二
+   <bean class="com.he.maven.module.exhandle.GlobalExceptionHandlerCustom"/>
+   -->
 
 </beans>

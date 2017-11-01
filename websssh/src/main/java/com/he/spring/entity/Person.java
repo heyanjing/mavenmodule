@@ -26,7 +26,7 @@ public class Person extends BaseEntityWithStringId {
 
     @NotEmpty(message = "名字不能为空")
     private String  name;
-    @Range(min = 0, max = 120, message = "年龄必须在{min}到{max}之间")
+    @Range(min = 20, max = 120, message = "年龄必须在{min}到{max}之间")
     private Integer age;
     private Integer state;
     private Date    birthday;
