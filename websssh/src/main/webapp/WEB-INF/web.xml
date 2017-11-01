@@ -45,6 +45,10 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath*:/spring/spring-web*.xml</param-value>
         </init-param>
+        <init-param>
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -54,7 +58,7 @@
 
     <!--
         对应状态码需要访问的url地址
-    -->
+        一般不会使用这个，而直接使用spring全局异常的处理方式，直接返回视图
     <error-page>
         <error-code>403</error-code>
         <location>/error/403</location>
@@ -67,6 +71,7 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error/500</location>
     </error-page>
+    -->
 
     <!--
     首页

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,6 +36,9 @@ public class PersonController {
     @RequestMapping("/test")
     @ResponseBody
     public Object test() {
+        if(true){
+            throw  new RuntimeException("xx");
+        }
         return this.personService.test();
     }
 
@@ -70,7 +74,7 @@ public class PersonController {
         return this.personService.findAllxSql(age);
     }
 
-    @RequestMapping("/pageByNamexSql")
+    @RequestMapping(value = "/pageByNamexSql",method = RequestMethod.POST)
     @ResponseBody
     public Page<Person> findAllxSql(String name, @RequestParam(name = "pageNumber", defaultValue = "1") Integer pageNumber, @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
         return this.personService.pageByNamexSql(name, pageNumber, pageSize);
