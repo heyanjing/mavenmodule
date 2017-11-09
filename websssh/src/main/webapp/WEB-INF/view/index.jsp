@@ -13,10 +13,10 @@
     <!-- Bootstrap -->
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="../../static/libs/bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="${BS}/css/bootstrap.css">
+    <link rel="stylesheet" href="${BOOTSTRAP}/css/bootstrap.css">
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="${BS}/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="${BOOTSTRAP}/css/bootstrap-theme.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -302,6 +302,6 @@ The following snippet of text is <em>rendered as italicized text</em><br>
 <script src="${JQUERY}/jquery-1.12.4.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="${BS}/js/bootstrap.js"></script>
+<script src="${BOOTSTRAP}/js/bootstrap.js"></script>
 </body>
 </html>

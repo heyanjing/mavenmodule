@@ -25,9 +25,12 @@ public class FileUploadController {
     private static final Logger log = LoggerFactory.getLogger(FileUploadController.class);
 
     @GetMapping(value = {"","/"})
-    public String fileUploadForm(Model model) {
-
+    public String upload(Model model) {
         return "/upload/upload";
+    }
+    @GetMapping(value = {"/webuploader","/webuploader/"})
+    public String webuploader(Model model) {
+        return "/upload/webuploader";
     }
     // Handling single file upload request
     @PostMapping("/singleFileUpload")

@@ -2,7 +2,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task" xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--
+        servlet3.0以上使用这个
+
+        <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+        并将配置参数写在web.xml的springmvc中
+        <multipart-config>
+            <location>d:/tempfile</location>
+            <max-file-size>209715200</max-file-size>
+            <max-request-size>419430400</max-request-size>
+        </multipart-config>
+    -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
-
-
+    <!--
+        无servlet要求只是需要添加commons-fileupload.jar包
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+            <property name="defaultEncoding" value="utf-8" />
+            <property name="maxUploadSize" value="104857600" />
+            <property name="maxInMemorySize" value="1048576" />
+        </bean>
+    -->
 </beans>

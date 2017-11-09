@@ -52,13 +52,13 @@
         <load-on-startup>1</load-on-startup>
         <!--
         // MEINFO:2017/11/8 17:09 文件上传配置
+        location 临时文件的目录
+        max-file-size  上传文件最大200M
+        max-request-size 上传文件整个请求不超过400M
         -->
         <multipart-config>
-            <!--临时文件的目录-->
             <location>d:/tempfile</location>
-            <!-- 上传文件最大2M -->
             <max-file-size>209715200</max-file-size>
-            <!-- 上传文件整个请求不超过4M -->
             <max-request-size>419430400</max-request-size>
         </multipart-config>
     </servlet>

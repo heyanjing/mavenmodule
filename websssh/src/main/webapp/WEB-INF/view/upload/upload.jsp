@@ -12,7 +12,7 @@
 <hr />
 
 <h3>Single file Upload</h3>
-<form action="singleFileUpload" method="post" enctype="multipart/form-data">
+<form action="${CTX}/file/upload/singleFileUpload" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>Select File</td>
@@ -24,7 +24,7 @@
 <br />
 <hr />
 <h3>Multiple file Upload</h3>
-<form action="multipleFileUpload" method="post" enctype="multipart/form-data">
+<form action="${CTX}/file/upload/multipleFileUpload" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>Select Files</td>

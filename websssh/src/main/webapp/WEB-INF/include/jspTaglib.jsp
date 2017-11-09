@@ -8,10 +8,12 @@
 
  <c:set var="CTX" value="${pageContext.request.contextPath}" />
  <c:set var="STATIC" value="${CTX}/static" />
+ <c:set var="IMG" value="${STATIC}/img" />
+ <c:set var="JS" value="${STATIC}/js" />
  <c:set var="LIBS" value="${STATIC}/libs" />
  <c:set var="JQUERY" value="${LIBS}/jquery" />
- <c:set var="BS" value="${LIBS}/bootstrap-3.3.7-dist" />
- <c:set var="IMG" value="${STATIC}/img" />
+ <c:set var="BOOTSTRAP" value="${LIBS}/bootstrap-3.3.7-dist" />
+ <c:set var="WEBUPLOADER" value="${LIBS}/webuploader" />
 
 
  <c:set var="JS" value="${STATIC}/js" />
@@ -24,3 +26,16 @@
  <c:set var="UE" value="${LIBS}/ueditor" />
  <c:set var="FLOW" value="${LIBS}/flow" />
  <c:set var="ZTREE" value="${LIBS}/ztree" />
+<script type="text/javascript">
+    window.App = {
+        log : function(msg) {
+            if (window.console) {
+                console.log(msg);
+            }
+        }
+    };
+    window.CTX = '${CTX}';
+    window.JS = '${JS}';
+    window.IMG = '${IMG}';
+    window.LIBS = '${LIBS}';
+</script>
