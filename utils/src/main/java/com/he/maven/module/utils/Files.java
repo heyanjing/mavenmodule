@@ -1,19 +1,32 @@
 package com.he.maven.module.utils;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -1051,5 +1064,52 @@ public class Files {
             return false;
         }
         return ArrayUtils.contains(IMAGES, Files.getExtension(filename).toLowerCase());
+    }
+
+    /**
+     * 合并文件后删除资源文件
+     * @param sourcePaths 资源文件的路径
+     * @param destPath 目标文件的路径
+     */
+    public static boolean mergeFiles(String[] sourcePaths, String destPath) {
+        if (sourcePaths == null || sourcePaths.length < 1 || StringUtils.isEmpty(destPath)) {
+            return false;
+        }
+        if (sourcePaths.length == 1) {
+            return new File(sourcePaths[0]).renameTo(new File(destPath));
+        }
+        List<String> sourceList = Arrays.asList(sourcePaths);
+        sourceList.sort(Comparator.naturalOrder());
+
+
+        List<File> fileList= Lists.newArrayList();
+        for (int i = 0; i < sourceList.size(); i ++) {
+            String sourcePath = sourceList.get(i);
+            if (StringUtils.isEmpty(sourcePath)){
+                return false;
+            }
+            File file = new File(sourcePath);
+            if (!file.exists() || !file.isFile()) {
+                return false;
+            }
+            fileList.add(file);
+        }
+
+        File destFile = new File(destPath);
+
+        try {
+            FileChannel destFileChannel = new FileOutputStream(destFile, true).getChannel();
+            for (int i = 0; i < fileList.size(); i ++) {
+                FileChannel sourceFileChannel = new FileInputStream(fileList.get(i)).getChannel();
+                destFileChannel.transferFrom(sourceFileChannel, destFileChannel.size(), sourceFileChannel.size());
+                sourceFileChannel.close();
+            }
+            destFileChannel.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        fileList.forEach(f->f.delete());
+        return true;
     }
 }
