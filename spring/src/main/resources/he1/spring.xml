@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--通过构造函数实例化.-->
+    <bean id="baseBean" class="com.he.spring.he1.bean.BaseBean"/>
+    <!--使用静态工厂方法实例化-->
+    <bean id="staticFactoryBean" class="com.he.spring.he1.bean.StaticFactoryBean" factory-method="instance"/>
+    <!--使用实例工厂方法实例化-->
+    <bean id="factoryBean" class="com.he.spring.he1.bean.FactoryBean"/>
+    <bean id="factoryBeanInstance" factory-bean="factoryBean" factory-method="instance"/>
+
+
+</beans>

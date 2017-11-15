@@ -1,0 +1,38 @@
+com.he.spring.he-------------------spring的初体验
+com.he.spring.he1-------------------spring bean实例化的三种方法
+com.he.spring.he2-------------------spring bean依赖注入的两种方法以及他们简洁方法
+com.he.spring.he3-------------------spring bean的集合注入List, Set, Map, 和 Properties
+com.he.spring.he4-------------------spring 实现ApplicationContextAware接口，并将其在xml中实例化后，可以获取spring的容器
+com.he.spring.he5-------------------spring的初体验
+com.he.spring.he6-------------------spring的初体验
+com.he.spring.he7-------------------spring的初体验
+com.he.spring.he8-------------------spring的初体验
+com.he.spring.he9-------------------spring的初体验
+com.he.spring.he-------------------spring的初体验
+com.he.spring.he-------------------spring的初体验
+com.he.spring.he-------------------spring的初体验
+
+
+
+
+depends-on属性 当前bean初始化之前显式地强制一个或多个bean被初始化,depends-on中将指定的多个bean名字用分隔符进行分隔，分隔符可以是逗号，空格以及分号等。
+
+ApplicationContext实现的默认行为就是再启动时将所有singleton bean提前进行实例化，可以使用lazy-init属性控制单个bean延迟初始化，beans上的default-lazy-init属性可以在容器层次上控制延迟加载
+
+使用<bean/>元素的autowire属性 为定义的bean指定自动装配模式
+
+在bean定义中通过设置autowire-candidate属性为false避免该bean自动装配
+
+在bean定义中设置<bean/>元素上的`primary属性为true，将该bean设置为首选自动装配bean
+
+
+
+
+
+
+
+
+
+
+
+

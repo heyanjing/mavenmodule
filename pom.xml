@@ -19,6 +19,8 @@
         <module>springaop</module>
         <module>springtest</module>
         <module>springexceptionhandl</module>
+        <module>websssh2</module>
+        <module>spring</module>
     </modules>
 
     <properties>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="com.he.spring.he2.bean.Field1" id="field1">
+        <property name="name" value="field1"/>
+    </bean>
+
+    <bean class="com.he.spring.he2.bean.Field2" id="field2" p:name="field2"/>
+
+    <!--
+        构造器注入(name和type一般不需要)
+        index指定构造参数的位置，从0开始
+        name构造器参数命名，需要使用@ConstructorProperties JDK注解明确指出构造函数的参数
+        type指定参数类型
+    -->
+    <bean class="com.he.spring.he2.bean.BaseBean" id="baseBean1" >
+        <constructor-arg index="0" name="field1" type="com.he.spring.he2.bean.Field1" ref="field1"/>
+        <constructor-arg index="1" name="field2" type="com.he.spring.he2.bean.Field2" ref="field2"/>
+        <constructor-arg index="2" name="str1" type="java.lang.String" value="str1" />
+        <constructor-arg index="3" name="str2" type="java.lang.String" value="str2" />
+        <constructor-arg index="4" name="int1" type="int" value="1" />
+        <constructor-arg index="5" name="int2" type="int" value="2" />
+    </bean>
+    <!--
+        构造器注入的简洁方法
+        推荐使用使用符号名称，如c:str2
+    -->
+    <bean class="com.he.spring.he2.bean.BaseBean" id="baseBean5" c:_0-ref="field1" c:field2-ref="field2" c:_2="str1" c:str2="str2" c:_4="1" c:int2="2" />
+
+
+    <!--
+        Setter注入
+        对应字段需要有对应的set方法
+    -->
+    <bean class="com.he.spring.he2.bean.BaseBean" id="baseBean2" >
+        <property name="field1" ref="field1"/>
+        <property name="str1" value="str1"/>
+        <property name="int1" value="1"/>
+    </bean>
+    <!--
+         Setter注入的简洁方法
+    -->
+    <bean class="com.he.spring.he2.bean.BaseBean" id="baseBean3" p:field1-ref="field1" p:str1="str1" p:int1="1" />
+
+
+
+
+
+
+
+
+
+    <bean class="java.lang.String" id="str1">
+        <constructor-arg value="str1"/>
+    </bean>
+    <bean class="com.he.spring.he2.bean.BaseBean" id="baseBean4" >
+        <property name="field1" ref="field1"/>
+        <property name="str1" >
+            <idref bean="str1"/>
+        </property>
+    </bean>
+
+
+</beans>
