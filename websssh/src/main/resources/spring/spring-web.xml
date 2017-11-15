@@ -9,7 +9,7 @@
 ">
 
     <!-- springmvc自动扫描的这些包下的对应注解 use-default-filters 是否自动扫描带有@Component、@Repository、@Service和@Controller的类 -->
-    <context:component-scan base-package="com.he.spring.web.controller" use-default-filters="false">
+    <context:component-scan base-package="com.he.spring.web" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
