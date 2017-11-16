@@ -1,10 +1,13 @@
 com.he.spring.he-------------------spring的初体验
-com.he.spring.he1-------------------spring bean实例化的三种方法
-com.he.spring.he2-------------------spring bean依赖注入的两种方法以及他们简洁方法
-com.he.spring.he3-------------------spring bean的集合注入List, Set, Map, 和 Properties
-com.he.spring.he4-------------------spring 实现ApplicationContextAware接口，并将其在xml中实例化后，可以获取spring的容器
-com.he.spring.he5-------------------spring的初体验
-com.he.spring.he6-------------------spring的初体验
+com.he.spring.he1-------------------spring  bean实例化的三种方法
+com.he.spring.he2-------------------spring  bean依赖注入的两种方法以及他们简洁方法
+com.he.spring.he3-------------------spring  bean的集合注入List, Set, Map, 和 Properties
+com.he.spring.he4-------------------spring  实现ApplicationContextAware接口，并将其在xml中实例化后，可以获取spring的ApplicationContext，也可以使用 @Autowired private ApplicationContext applicationContext;直接获取
+com.he.spring.he5-------------------spring  bean的初始化方法和销毁方法,
+                                                BeanNameAware,可以获取bean的id
+                                                BeanFactoryPostProcessor, 获取spring容器
+                                                BeanPostProcessor， 一个bean完全初始化完成前，后对应的bean对象和id
+com.he.spring.he6-------------------spring  @Autowired 通过类型自动注入，如果存在多个相同类型，则根据bean的id注入(如接口),默认如果没找到对应的id则报错，可以 @Autowired(required = false)
 com.he.spring.he7-------------------spring的初体验
 com.he.spring.he8-------------------spring的初体验
 com.he.spring.he9-------------------spring的初体验
@@ -24,6 +27,10 @@ ApplicationContext实现的默认行为就是再启动时将所有singleton bean
 在bean定义中通过设置autowire-candidate属性为false避免该bean自动装配
 
 在bean定义中设置<bean/>元素上的`primary属性为true，将该bean设置为首选自动装配bean
+
+<context:annotation-config> 是用于激活那些已经在spring容器里注册过的bean（无论是通过xml的方式还是通过package sanning的方式）上面的注解。
+
+<context:component-scan>除了具有<context:annotation-config>的功能之外，<context:component-scan>还可以在指定的package下扫描以及注册javabean 。
 
 
 
