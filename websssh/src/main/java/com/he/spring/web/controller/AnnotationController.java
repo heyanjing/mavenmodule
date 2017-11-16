@@ -37,7 +37,7 @@ public class AnnotationController {
      * http://localhost:8080/spring/annotation/testRequestParam?userName=何彦静&password=密码&hobby=A&hobby=B
      */
     @RequestMapping("/testRequestParam")
-    public String testRequestParam(@RequestParam(name = "userName") String userName, String password, @RequestParam(value = "hobby") List<String> hobby, UserBean user) {
+    public String testRequestParam(@RequestParam(name = "userName",defaultValue = "userName") String userName, String password, @RequestParam(value = "hobby" ,defaultValue = "a,b") List<String> hobby, UserBean user) {
 
         log.info(userName);//何彦静
         log.info(password);//密码

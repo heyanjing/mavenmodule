@@ -2,6 +2,7 @@ package com.he.spring.web.controller;
 
 import com.he.spring.web.aop.test.Ba;
 import com.he.spring.web.aop.test.Interface.IA;
+import com.he.spring.web.controlleradvice.AdviceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class IndexController extends BaseController {
 
 
     @RequestMapping("/")
-    public String index() {
+    public String index(AdviceBean bean) {
+        log.info("{}",bean);
         log.info("{}",super.request);//Current HttpServletRequest
         log.info("{}",super.response);//Current HttpServletResponse
         return "/index";
