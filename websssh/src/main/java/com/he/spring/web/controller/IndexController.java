@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by heyanjing on 2017/10/19 16:42.
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
     private static final Logger log = LoggerFactory.getLogger(IndexController.class);
     @Autowired
     private IA a1;
@@ -22,8 +22,17 @@ public class IndexController {
     @Autowired
     private Ba ba;
 
+//    @Autowired
+//    private HttpServletRequest request;
+//    @Autowired
+//    private HttpServletResponse response;
+
+
+
     @RequestMapping("/")
     public String index() {
+        log.info("{}",super.request);//Current HttpServletRequest
+        log.info("{}",super.response);//Current HttpServletResponse
         return "/index";
     }
 
