@@ -21,20 +21,20 @@ public class AdviceController {
     //region Description // MEINFO:2017/11/16 14:19 这两个不常和@ControllerAdvice组合使用
     @ModelAttribute
     public AdviceBean newUser() {
-        log.warn("============应用到所有@RequestMapping注解方法，在其执行之前把返回值放入Model");
+        log.warn("@ModelAttribute============应用到所有@RequestMapping注解方法，在其执行之前把返回值放入Model");
         return new AdviceBean("heyanjing");
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        log.warn("============应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器");
+        log.warn("@InitBinder============应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器");
     }
     //endregion
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String processUnauthenticatedException(NativeWebRequest request, Throwable e) {
-        log.warn("===========应用到所有@RequestMapping注解的方法，在其抛出UnauthenticatedException异常时执行");
+        log.warn("@ExceptionHandler===========应用到所有@RequestMapping注解的方法，在其抛出UnauthenticatedException异常时执行");
         log.error("{}",request);
         log.error("{}",e);
         return "/error/500"; //返回一个逻辑视图名
