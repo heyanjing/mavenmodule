@@ -3,6 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.he.spring"/>
+    <context:component-scan base-package="com.he.spring.he6"/>
+    <!--方式二
+        jvm:-Dconfig.name=config2
+        <context:property-placeholder location="classpath:he6/${config.name}.propertes"/>
+    -->
+
+    <!--方式一
+        jvm: -Dspring.profiles.default=config1 -Dspring.profiles.active=config2
+
+    <beans profile="config1">
+        <context:property-placeholder location="classpath:he6/config1.propertes"/>
+    </beans>
+    <beans profile="config2">
+        <context:property-placeholder location="classpath:he6/config2.propertes"/>
+    </beans>
+    -->
+
 
 </beans>

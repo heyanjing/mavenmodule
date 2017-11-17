@@ -8,9 +8,40 @@ com.he.spring.he5-------------------spring  bean的初始化方法和销毁方�
                                                 BeanFactoryPostProcessor, 获取spring容器
                                                 BeanPostProcessor， 一个bean完全初始化完成前，后对应的bean对象和id
 com.he.spring.he6-------------------spring  @Autowired 通过类型自动注入，如果存在多个相同类型，则根据bean的id注入(如接口),默认如果没找到对应的id则报错，可以 @Autowired(required = false)
-com.he.spring.he7-------------------spring的初体验
-com.he.spring.he8-------------------spring的初体验
-com.he.spring.he9-------------------spring的初体验
+                                            定义多个配置，动态决定使用哪个
+                                                配置：
+                                                    <beans profile="config1">
+                                                        <context:property-placeholder location="classpath:he6/config1.propertes"/>
+                                                    </beans>
+                                                    <beans profile="config2">
+                                                        <context:property-placeholder location="classpath:he6/config2.propertes"/>
+                                                    </beans>
+                                                 动态决定：
+                                                    jvm:-Dspring.profiles.default=config1 -Dspring.profiles.active=config2
+                                                    Web: 应用上下文中的初始化参数
+                                                        <context-param>
+                                                            <param-name>spring.profiles.default</param-name>
+                                                            <param-value>config1</param-value>
+                                                        </context-param>
+                                                        <context-param>
+                                                            <param-name>spring.profiles.activ</param-name>
+                                                            <param-value>config2</param-value>
+                                                        </context-param>
+
+
+
+com.he.spring.he7-------------------spring  基于java的容器配置
+                                                @Configuration
+                                                @ComponentScan(basePackages = {"com.he.spring.he7.annotationbean"})
+                                                @Bean(name = "field1",initMethod = "init", destroyMethod = "destory")
+                                                @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.NO)
+                                                同一个配置文件中的bean可以相互注入到方法参数上去（public B b(A a) {}），也可以调用对应bean的方法获取该bean(Field4 field4 = new Field4(field1()))
+                                                基于java的容器配置和基于xml的容器配置可以共存
+                                                    以xml为主时，通过扫描配置将RootConf扫描到即可使用RootConf这个bean以及在它里面定义的bean，启动容器用ClassPathXmlApplicationContext
+                                                    以@Configuration为主时，通过@ImportResource将需要引入的xml引入（@ImportResource("classpath：/com/acme/properties-config.xml") ）即可使用xml中定义的bean
+
+com.he.spring.he8-------------------spring
+com.he.spring.he9-------------------spring
 com.he.spring.he-------------------spring的初体验
 com.he.spring.he-------------------spring的初体验
 com.he.spring.he-------------------spring的初体验
@@ -32,7 +63,7 @@ ApplicationContext实现的默认行为就是再启动时将所有singleton bean
 
 <context:component-scan>除了具有<context:annotation-config>的功能之外，<context:component-scan>还可以在指定的package下扫描以及注册javabean 。
 
-
+<aop:scoped-proxy/> 在web开发中当短作用域被长作用域依赖的时候使用 https://segmentfault.com/q/1010000005183284
 
 
 

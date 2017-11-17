@@ -22,7 +22,7 @@
         用于激活spring支持的注解
         可以在指定的package下扫描以及注册自己的javabean
     -->
-    <context:component-scan base-package="com.he.spring"/>
+    <context:component-scan base-package="com.he.spring.he5"/>
 
 
     <bean class="com.he.spring.he5.bean.Field4" id="field4"/>
