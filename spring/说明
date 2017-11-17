@@ -7,6 +7,7 @@ com.he.spring.he5-------------------spring  bean的初始化方法和销毁方�
                                                 BeanNameAware,可以获取bean的id
                                                 BeanFactoryPostProcessor, 获取spring容器
                                                 BeanPostProcessor， 一个bean完全初始化完成前，后对应的bean对象和id
+                                                ApplicationListener, 容器的事件监听
 com.he.spring.he6-------------------spring  @Autowired 通过类型自动注入，如果存在多个相同类型，则根据bean的id注入(如接口),默认如果没找到对应的id则报错，可以 @Autowired(required = false)
                                             定义多个配置，动态决定使用哪个
                                                 配置：
@@ -40,7 +41,12 @@ com.he.spring.he7-------------------spring  基于java的容器配置
                                                     以xml为主时，通过扫描配置将RootConf扫描到即可使用RootConf这个bean以及在它里面定义的bean，启动容器用ClassPathXmlApplicationContext
                                                     以@Configuration为主时，通过@ImportResource将需要引入的xml引入（@ImportResource("classpath：/com/acme/properties-config.xml") ）即可使用xml中定义的bean
 
-com.he.spring.he8-------------------spring
+com.he.spring.he8-------------------spring  提供的访问资源的封装类// MEINFO:2017/11/17 15:41 尝试使用这些类
+                                                UrlResource ClassPathResource FileSystemResource ServletContextResource InputStreamResource ByteArrayResource
+
+
+
+
 com.he.spring.he9-------------------spring
 com.he.spring.he-------------------spring的初体验
 com.he.spring.he-------------------spring的初体验
@@ -65,6 +71,7 @@ ApplicationContext实现的默认行为就是再启动时将所有singleton bean
 
 <aop:scoped-proxy/> 在web开发中当短作用域被长作用域依赖的时候使用 https://segmentfault.com/q/1010000005183284
 
+@Profile @PropertySource  MessageSource
 
 
 

@@ -16,7 +16,6 @@ public class Main {
 
 
         AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"/he5/spring.xml"});
-
         ctx.registerShutdownHook();
         Thread.sleep(20000);
 
