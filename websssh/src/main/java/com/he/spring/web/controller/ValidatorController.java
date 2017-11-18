@@ -3,6 +3,7 @@ package com.he.spring.web.controller;
 import com.he.maven.module.utils.Dates;
 import com.he.maven.module.utils.Jsons;
 import com.he.maven.module.utils.Randoms;
+import com.he.spring.bean.User;
 import com.he.spring.entity.Person;
 import com.he.spring.web.service.PersonService;
 import org.slf4j.Logger;
@@ -95,4 +96,17 @@ public class ValidatorController {
         }
         return this.personService.save(p);
     }
+
+    @RequestMapping("/user")
+    @ResponseBody
+    public Object user(@Valid User user, BindingResult result) {
+
+        if (result.hasErrors()) {
+            log.error(Jsons.toJson(result.getAllErrors()));
+            log.error(Jsons.toJson(result.getFieldErrors()));
+            return null;
+        }
+        return result;
+    }
+
 }

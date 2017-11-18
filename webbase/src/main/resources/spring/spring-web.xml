@@ -11,17 +11,60 @@
     <!-- springmvc自动扫描的这些包下的对应注解 use-default-filters 是否自动扫描带有@Component、@Repository、@Service和@Controller的类 -->
     <context:component-scan base-package="com.he.spring.web" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
     <!--处理静态资源 两者选其一都可以 mvc:resources更好点 <mvc:default-servlet-handler />
     -->
     <mvc:resources mapping="/static/**" location="/static/"/>
-    <!--启用SpringMVC的注解功能,它会自动注册HandlerMapping、HandlerAdapter、ExceptionResolver的相关实例 -->
+
+    <!--启用SpringMVC的注解功能,它会自动注册HandlerMapping、HandlerAdapter、ExceptionResolver的相关实例
     <mvc:annotation-driven/>
+    -->
     <!--springmvc的是图解析器 -->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="contentType" value="text/html; charset=UTF-8"/>
         <property name="prefix" value="/WEB-INF/view"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+
+    <!--国际化验证 -->
+    <mvc:annotation-driven validator="validator" conversion-service="formatService"/>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!--指定国际化配置文件 不设置则默认为classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+    <!-- formatter转换配置
+        用于springmvc的自动bean封装,springmvc默认提供了日期@DateTimeFormat和数字@NumberFormat格式化
+    -->
+    <bean id="formatService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <bean class="com.he.spring.formatter.MyDateFormatter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 国际化资源文件 -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/resource/usermsg</value>
+                <value>/WEB-INF/resource/userlabels</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+
+    <!-- 本地化解析配置,采用cookie方式 -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieName" value="clientlanguage"/>
+        <property name="cookieMaxAge" value="94608000"/>
+        <property name="defaultLocale" value="en_GB" />
+    </bean>
+
 </beans>
