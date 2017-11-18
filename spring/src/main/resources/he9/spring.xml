@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--
+        spring AOP  xml 方式
+    <bean class="com.he.spring.he9.bean.Student" id="student" p:age="28" p:name="何彦静" />
+    <bean class="com.he.spring.he9.aspect.Logging" id="logging"/>
+    <aop:config>
+        <aop:aspect id="logAspect" ref="logging">
+            <aop:pointcut id="logPointcut" expression="execution(* com.he.spring.he9.bean.Student.*(..))"/>
+            <aop:before pointcut-ref="logPointcut" method="beforeAdvice"/>
+            <aop:after pointcut-ref="logPointcut" method="afterAdvice"/>
+            <aop:after-returning pointcut-ref="logPointcut" returning="retVal" method="afterReturningAdvice"/>
+            <aop:after-throwing pointcut-ref="logPointcut" throwing="ex" method="AfterThrowingAdvice"/>
+        </aop:aspect>
+    </aop:config>-->
+
+    <!--Spring Aop 注解方式-->
+    <aop:aspectj-autoproxy/>
+    <bean class="com.he.spring.he9.bean.Student2" id="student2" p:age="28" p:name="何彦静2" />
+    <bean class="com.he.spring.he9.aspect.Logging2" id="logging2"/>
 
 
 

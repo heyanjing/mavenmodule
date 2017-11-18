@@ -1,3 +1,5 @@
+https://github.com/gantianxing/locale-demo1 国际化验证demo
+
 JSR bean validation规范（JSR303、JSR349），这个规范只是定义了对象属性约束说明，没有具体实现。hibernate-validator就是实现了这个规范的框架之一
 
 默认的ConversionService可以在字符串，数字，枚举，集合，地图和其他常见类型之间进行转换。要使用自己的自定义转换器补充或覆盖默认转换器，请设置converters属性。属性值可以实现Converter，ConverterFactory或GenericConverter接口之一。
