@@ -73,7 +73,13 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    <!-- 开启事务注解方式配置事物-->
+    <!-- 开启事务注解方式配置事物
+        <tx:annotation-driven/>标签里面的transaction-manager属性值写的是transactionManager的话可以忽略
+        Spring建议你只为具体类(以及具体类的方法)添加@Transactional注解
+        在代理模式下(默认值), 只有来自外部方法的调用才会被代理拦截. 这意味着自我调用, 在效果上是, 目标对象的 一个方法调用了目标对象的另一个方法, 不会导致产生运行期的事务, 即使被调用的方法被@Transactional 标记了.
+        只在代理模式生效. 控制使用@Transactional注解的类将会创建什么类型的事务型代理. 如果proxy-target-class 属性设置为true, 那么将会创建基于类的代理. 如果proxy-target-class设置为false或者这个属性 被忽略了, 那么将会创建标准的JDK的基于接口的代理
+        @EnableTransactionManagement和<tx:annotation-driven/>只会查找在同一个应用上下文中定义的 bean的@Transactional注解. 这意味着, 如果你在一个DispatcherServlet的WebApplicationContext 中添加了注解驱动的配置, 那么只会在控制器中查找`@Transactional`bean, 而不会查找服务层.
+    -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--配置事务属性 -->
