@@ -48,9 +48,31 @@ com.he.spring.he8-------------------spring  提供的访问资源的封装类// 
 
 
 com.he.spring.he9-------------------spring  基于xml的aop和基于注解的aop功能实现
-com.he.spring.he-------------------spring的初体验
-com.he.spring.he-------------------spring的初体验
-com.he.spring.he-------------------spring的初体验
+com.he.spring.he10-------------------spring jdbc中 JdbcTemplate、NamedParameterJdbcTemplate
+com.he.spring.he11-------------------spring orm中的hibernate、jpa集成
+                                       Hibernate
+                                            Could not obtain transaction-synchronized Session for current thread 错误是spring中没有加入事务控制
+                                       JPA
+                                           JPA的总体思想和现有Hibernate、TopLink、JDO等ORM框架大体一致。总的来说，JPA包括以下3方面的技术：
+                                           ORM映射元数据
+                                           JPA支持XML和JDK5.0注解两种元数据的形式，元数据描述对象和表之间的映射关系，框架据此将实体对象持久化到数据库表中；
+                                           API
+                                           用来操作实体对象，执行CRUD操作，框架在后台替代我们完成所有的事情，开发者从繁琐的JDBC和SQL代码中解脱出来。
+                                           查询语言
+                                           这是持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。
+
+
+
+com.he.spring.he12-------------------spring的初体验
+com.he.spring.he13-------------------spring的初体验
+com.he.spring.he14-------------------spring的初体验
+com.he.spring.he15-------------------spring的初体验
+com.he.spring.he16-------------------spring的初体验
+com.he.spring.he17-------------------spring的初体验
+com.he.spring.he18-------------------spring的初体验
+com.he.spring.he19-------------------spring的初体验
+com.he.spring.he20-------------------spring的初体验
+com.he.spring.he21-------------------spring的初体验
 
 
 
