@@ -14,8 +14,8 @@ import java.util.List;
  * Created by heyanjing on 2017/11/21 15:29.
  */
 @Repository
-public class UsersDao {
-    private static final Logger log = LoggerFactory.getLogger(UsersDao.class);
+public class PersonsDao {
+    private static final Logger log = LoggerFactory.getLogger(PersonsDao.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -28,7 +28,9 @@ public class UsersDao {
         this.em.persist(p);
     }
     public void list(){
-        List list = this.em.createQuery("from Person").getResultList();
+        List resultList = this.em.createNativeQuery("select * from Person").getResultList();
+        log.info("{}",resultList);
+        List list = this.em.createQuery("from persons").getResultList();
         log.info("{}",list);
     }
 

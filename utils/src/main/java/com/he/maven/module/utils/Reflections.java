@@ -7,14 +7,17 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
@@ -413,7 +416,7 @@ public class Reflections {
 
     private static String[] getMethodParamNames(CtMethod ctMethod) throws RuntimeException {
         CtClass ctClass = ctMethod.getDeclaringClass();
-        MethodInfo methodInfo = ctMethod.getMethodInfo();
+        javassist.bytecode.MethodInfo methodInfo = ctMethod.getMethodInfo();
         CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
         LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
         if (attr == null) {
