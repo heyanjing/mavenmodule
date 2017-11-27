@@ -1,0 +1,36 @@
+DispatcherServlet 在初始化时，Spring MVC 会查找 web 应用 WEB_INF 目录下的[servlet-name]-servlet.xml 并创建在此文件定义的 bean,若在全局范围里有一个名称相同的 bean，全局范围的 bean 会被覆盖掉。
+假设DispatcherServlet Servlet 的配置如下(在 web.xml 配置)：
+<web-app>
+    <servlet>
+        <servlet-name>golfing</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>golfing</servlet-name>
+        <url-pattern>/golfing/*</url-pattern>
+    </servlet-mapping>
+</web-app>
+上述配置，要求应用程序在 WEB-INF 目录下有一个 golfing-servlet.xml 文件
+**********************************************************************************************************************************
+**********************************************************************************************************************************
+**********************************************************************************************************************************
+<mvc:annotation-driven />
+上面的代码注册了 RequestMappingHandlerMapping、RequestMappingHandlerAdapter 以及 ExceptionHandlerExceptionResolver 等等。对于使用了 @RequestMapping、@ExceptionHandler 以及其他等等注解的注解式控制器方法，它们会帮助处理请求。
+它同时启用了以下内容：
+Spring 3 风格的类型转换。这是通过 ConversionService 实例，以及用于数据绑定的 JavaBeans PropertyEditor 来实现的。
+支持使用 @NumberFormat 注解 格式化 数值字段。这是通过 ConversionService 来实现的。
+支持使用 @DateTimeFormat 注解 格式化 Date、Calendar、Long 和 Joda 时间字段。
+如果在类路径下存在 JSR-303 供应商的话，则支持使用 @Valid 验证 @Controller 的输入。
+HttpMessageConverter 支持来自 @RequestMapping 或 @ExceptionHandler 方法的 @RequestBody 方法参数和 @ResponseBody 方法返回值。
+这是 mvc:annotation-driven 设置的 HttpMessageConverter 的完整列表：
+ByteArrayHttpMessageConverter 用于转换字节数组。
+StringHttpMessageConverter 用于转换字符串。
+ResourceHttpMessageConverter 用于 org.springframework.core.io.Resource 和所有媒体类型之间的互相转换。
+SourceHttpMessageConverter 用于数据和 javax.xml.transform.Source 之间的互相转换。
+FormHttpMessageConverter 用于表单数据和 MultiValueMap<String,String> 之间的互相转换。
+Jaxb2RootElementHttpMessageConverter 用于 Java 对象与 XML 之间的互相转换 —— 前提类路径下存在 JAXB2 且不存在 Jackson 2 XML 扩展。
+MappingJackson2HttpMessageConverter 用于数据和 JSON 之间的互相转换 —— 前提是在类路径下存在 Jackson 2。
+MappingJackson2XmlHttpMessageConverter converts to/from XML — added if Jackson 2 XML extension is present on the classpath. 用于数据和 XML之间的互相转换 —— 前提是类路径下存在 Jackson 2 XML 扩展。
+AtomFeedHttpMessageConverter 用于转换 Atom 源 —— 前提是类路径下存在 Rome。
+RssChannelHttpMessageConverter 用于转换 RSS 源 —— 前提是类路径下存在 Rome。
