@@ -107,11 +107,12 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.9.Final</version>
         </dependency>
-       <!-- <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.22.0-GA</version>
-        </dependency>-->
+        <!--spring的oxm-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>4.3.8.RELEASE</version>
+        </dependency>
 
     </dependencies>
 
