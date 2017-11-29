@@ -2,6 +2,7 @@ package com.he.spring.web;
 
 import com.he.spring.bean.User;
 import com.he.spring.bean.User2;
+import com.he.spring.bean.User3;
 import com.he.spring.bean.UserCopy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -71,5 +76,21 @@ public class IndexController {
         return new User("何彦静x", 31, new Date());
     }
 
+    /**
+     *重定向
+     */
+    @GetMapping("/helloWorld3")
+    public String helloWorld3(RedirectAttributes attr) {
+        attr.addFlashAttribute("x","xa");
+        return "redirect:/index/helloWorld";
+    }
+    @GetMapping("/helloWorld4")
+    @ResponseBody
+//    @JsonView(value = {com.he.spring.json.JsonView.Name.class})
+//    @JsonView(value = {com.he.spring.json.JsonView.NameAndAge.class})
+//    @JsonView(value = {com.he.spring.json.JsonView.NameAndAgeAndBirthday.class})
+    public User3 helloWorld5() {
+        return  new User3("何彦静x", 32, new Date(), LocalDate.now(), LocalDateTime.now());
+    }
 
 }
