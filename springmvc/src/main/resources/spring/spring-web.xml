@@ -8,8 +8,14 @@
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
-    <mvc:annotation-driven enable-matrix-variables="false" ignore-default-model-on-redirect="true">
-        <mvc:async-support  task-executor="myThreadPool" default-timeout="6000"><!--定义6秒为默认值  DeferredResult 可以通过setXX方法更改默认值,Callable  也可以封装成WebAsyncTask 并通过setXX方法更改-->
+
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"  />
+
+<!--
+    ignoreDefaultModelOnRedirect 用来标记model中的属性在重定向后不能使用
+-->
+    <mvc:annotation-driven enable-matrix-variables="false" ignore-default-model-on-redirect="true" >
+        <mvc:async-support task-executor="myThreadPool" default-timeout="6000"><!--定义6秒为默认值  DeferredResult 可以通过setXX方法更改默认值,Callable  也可以封装成WebAsyncTask 并通过setXX方法更改-->
             <mvc:callable-interceptors>
                 <bean class="com.he.spring.async.MyCallableInterceptor"/>
             </mvc:callable-interceptors>
@@ -18,19 +24,31 @@
             </mvc:deferred-result-interceptors>
         </mvc:async-support>
     </mvc:annotation-driven>
-
-
+    <!--视图解析路径-->
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="contentType" value="text/html; charset=UTF-8"/>
         <property name="prefix" value="/WEB-INF/view"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
+    <!--线程池-->
     <bean id="myThreadPool" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="5" /><!--最小线程数 -->
-        <property name="maxPoolSize" value="10" /><!--最大线程数 -->
-        <property name="queueCapacity" value="50" /><!--缓冲队列大小 -->
-        <property name="threadNamePrefix" value="abc-" /><!--线程池中产生的线程名字前缀 -->
-        <property name="keepAliveSeconds" value="30" /><!--线程池中空闲线程的存活时间单位秒 -->
+        <property name="corePoolSize" value="5"/><!--最小线程数 -->
+        <property name="maxPoolSize" value="10"/><!--最大线程数 -->
+        <property name="queueCapacity" value="50"/><!--缓冲队列大小 -->
+        <property name="threadNamePrefix" value="abc-"/><!--线程池中产生的线程名字前缀 -->
+        <property name="keepAliveSeconds" value="30"/><!--线程池中空闲线程的存活时间单位秒 -->
     </bean>
+
+
+    <!--拦截器
+    mvc:mapping 拦截器路径配置
+    mvc:exclude-mapping 拦截器不需要拦截的路径
+    -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <bean class="com.he.spring.web.WebHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

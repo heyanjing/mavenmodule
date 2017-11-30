@@ -43,3 +43,14 @@ Callable
 WebAsyncTask
 DeferredResult
         DeferredResult 的时候，执行流程有点区别的是，Callable的时候是由spring去启动的一个线程去执行Callble，而 DeferredResult 的执行线程是由我们（程序员）控制的，只需要将结果set进去即可。
+
+
+
+
+
+
+
+
+
+
+classname

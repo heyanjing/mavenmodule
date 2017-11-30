@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -30,7 +31,9 @@ public class IndexController {
 
 
     @GetMapping("/helloWorld")
-    public String helloWorld(Model model) {
+    public String helloWorld(Model model, HttpServletRequest request) {
+//        TimeZone timezone = RequestContextUtils.getTimeZone(request);
+//        log.info(timezone.getDisplayName());
         model.addAttribute("b","bx");
         model.addAttribute("a","ax");
         model.addAttribute("user3",new User("何彦静x", 32, new Date()));
@@ -83,6 +86,14 @@ public class IndexController {
     public String helloWorld3(RedirectAttributes attr) {
         attr.addFlashAttribute("x","xa");
         return "redirect:/index/helloWorld";
+    }
+    /**
+     *转发
+     */
+    @GetMapping("/helloWorld3x")
+    public String helloWorld3x(RedirectAttributes attr,Model model) {
+        model.addAttribute("x","xax");
+        return "forward:/index/helloWorld";
     }
     @GetMapping("/helloWorld4")
     @ResponseBody
