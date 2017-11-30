@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends GlobalExceptionHandlerBase {
     }
 
 
-    //比如404的异常就会被这个方法捕获
+    //比如404的异常就会被这个方法捕获  需要设置web.xml 中的throwExceptionIfNoHandlerFound参数
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView handle404Error(HttpServletRequest req, HttpServletResponse rsp, Exception e) throws Exception {

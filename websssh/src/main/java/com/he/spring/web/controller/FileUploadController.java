@@ -39,12 +39,25 @@ public class FileUploadController {
     public String webuploader(Model model) {
         return "/upload/webuploader";
     }
+
+    /**
+     * 断点续传
+     */
     @GetMapping(value = {"/webuploaderchunked","/webuploaderchunked/"})
     public String webuploaderchunked(Model model) {
         return "/upload/webuploader_chunked";
     }
     // Handling single file upload request
+
+
     private int count=0;
+
+
+    /**
+     *当使用 Servlet 3.0 multipart 解析时,你也可以使用 javax.servlet.http.Part 作为方法参数
+     * @RequestParam("file") Part file
+     * @RequestPart("file") MultipartFile file // MEINFO:2017/11/29 16:46 待验证
+     */
     @PostMapping("/singleFileUpload")
     @ResponseBody
     public Result singleFileUpload(@RequestParam("file") MultipartFile file,String chunks,String chunk,String fileMd5) throws IOException {
