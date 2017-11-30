@@ -15,6 +15,10 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!-- Spring 刷新Introspector防止内存泄露 -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
     <!--
     解决乱码问题
     要放在所有filter的最上面
@@ -101,6 +105,9 @@
     </error-page>
     -->
 
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
     <!--
     首页
     -->

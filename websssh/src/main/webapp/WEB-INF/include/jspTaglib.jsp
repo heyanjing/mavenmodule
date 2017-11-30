@@ -14,6 +14,7 @@
  <c:set var="JQUERY" value="${LIBS}/jquery" />
  <c:set var="BOOTSTRAP" value="${LIBS}/bootstrap-3.3.7-dist" />
  <c:set var="WEBUPLOADER" value="${LIBS}/webuploader" />
+ <c:set var="WEBSOCKET" value="${LIBS}/websocket" />
 
 
  <c:set var="JS" value="${STATIC}/js" />
