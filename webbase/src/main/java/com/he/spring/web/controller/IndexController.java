@@ -1,10 +1,10 @@
 package com.he.spring.web.controller;
 
-import com.he.spring.bean.User;
 import com.he.spring.bean.User1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,13 @@ public class IndexController {
 
     @Autowired
     CookieLocaleResolver localeResolver;
-
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
 
     @RequestMapping("/")
-    public String index() {
+    public String index(Locale locale) {
+        String msg = messageSource.getMessage("welcome", null, locale);
+        log.warn(msg);
         return "/index";
     }
 
@@ -38,9 +41,9 @@ public class IndexController {
         if (result.hasErrors()) {
             log.error("{}", result.getAllErrors());
             log.error("{}", result.getFieldErrors());
-            return null;
+            return result.getAllErrors();
         }
-        return new User();
+        return user;
     }
 //    http://localhost:8080/spring/changelanguage?
 //    http://localhost:8080/spring/changelanguage?new_lang=en

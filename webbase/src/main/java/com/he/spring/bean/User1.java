@@ -1,6 +1,8 @@
 package com.he.spring.bean;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -19,6 +21,7 @@ public class User1 implements java.io.Serializable {
 
     private String password;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private long salary;
