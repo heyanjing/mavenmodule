@@ -46,10 +46,11 @@ function disconnect() {
 }
 
 function sendName() {
-    console.log(222);
+    console.log(1111);
     stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
-    console.log('222x');
+    console.log('1111x');
 }
+
 
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");

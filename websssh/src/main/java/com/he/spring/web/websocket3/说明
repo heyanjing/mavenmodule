@@ -1,0 +1,9 @@
+spring websocket + sockjs
+
+ if ('WebSocket'in window ) {
+        ws= new WebSocket("ws://localhost:8080"+CTX+"/websck");
+    }else {
+        ws = new SockJS("http://localhost:8080"+CTX+"/sockjs/websck/info");
+    }
+
+使用注解模式需要开启（servlet和所有的filter都要加<async-supported>true</async-supported>）

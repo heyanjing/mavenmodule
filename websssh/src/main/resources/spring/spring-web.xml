@@ -43,12 +43,23 @@ c.「<websocket:stomp-endpoint path=“/websocket”>」注册一个websocket的
 d.「<websocket:sockjs />」表示启用sockjs备用选项，以便在不支持websocket的浏览器端正常模拟出websocket的效果
 e.「<websocket:simple-broker prefix="/topic, /queue" />」标明broker采用SimpleBroker，并定义broker请求对应的地址是topic和queue
 
-    -->
     <websocket:message-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="/init">
             <websocket:sockjs/>
         </websocket:stomp-endpoint>
         <websocket:simple-broker prefix="/topic,/queue"/>
+    </websocket:message-broker>
+    -->
+
+
+    <!--
+        websocket4的配置
+    -->
+    <websocket:message-broker application-destination-prefix="/app" user-destination-prefix="/user">
+        <websocket:stomp-endpoint path="/hello" allowed-origins="*">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic,/user"/>
     </websocket:message-broker>
 
 

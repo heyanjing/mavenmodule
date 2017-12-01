@@ -1,0 +1,4 @@
+ 注解配置客户端不能向服务端发送信息；xml配置可以---------原因不明
+
+ Spring WebSocket+SockJS+Stomp实现一对一、一对多通信
+ web.xml：（servlet和所有的filter都要加<async-supported>true</async-supported>）
