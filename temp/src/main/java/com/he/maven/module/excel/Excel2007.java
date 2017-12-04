@@ -59,7 +59,25 @@ public class Excel2007 {
 
         XSSFWorkbook workbook = Excel2007.getXSSFWorkbook("你妹", dataList, titleList);
         workbook.write(new FileOutputStream("D:\\Temp/export.xlsx"));
+
+
+
     }
+
+    /**
+     * web环境中的导出
+     */
+//    public static void exportExcel2007(String fileName, String sheetname, List<?> dataList, List<Title> titleList, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        XSSFWorkbook xssfWorkbook = Excel2007.getXSSFWorkbook(sheetname, dataList, titleList);
+//        response.reset();
+//        response.setContentType("application/msexcel;charset=UTF-8");
+//        response.addHeader("Content-Disposition", "attachment;filename=\"" + new String((fileName + ".xlsx").getBytes("GB2312"), "ISO8859-1") + "\"");
+//        OutputStream out = response.getOutputStream();
+//        xssfWorkbook.write(out);
+//        out.flush();
+//        out.close();
+//
+//    }
 
     /**
      * @param sheetname sheet名称

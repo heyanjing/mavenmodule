@@ -1,6 +1,7 @@
 package com.he.maven.module.excel.ref;
 
-import com.search.csp.common.excel.Bean;
+
+import com.he.maven.module.excel.Bean;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
