@@ -22,6 +22,8 @@
         <module>websssh2</module>
         <module>spring</module>
         <module>springmvc</module>
+        <module>temp</module>
+        <module>jaxws</module>
     </modules>
 
     <properties>
