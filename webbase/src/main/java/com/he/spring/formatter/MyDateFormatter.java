@@ -61,11 +61,17 @@ public class MyDateFormatter implements Formatter<Date> {
         DateFormat df2 = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.CHINA);
         DateFormat df3 = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.CHINA);
         DateFormat df4 = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
-        System.out.println(df.format(dt));
-        System.out.println(df1.format(dt));
-        System.out.println(df2.format(dt));
-        System.out.println(df3.format(dt));
-        System.out.println(df4.format(dt));
+        System.out.println(df.format(dt));//2017-12-4 9:45:56
+        System.out.println(df1.format(dt));//2017年12月4日 星期一 上午09时45分56秒 CST
+        System.out.println(df2.format(dt));//2017年12月4日 上午09时45分56秒
+        System.out.println(df3.format(dt));//17-12-4 上午9:45
+        System.out.println(df4.format(dt));//2017-12-4 9:45:56
 //        System.out.println(df.parse("2017-06-13 21:41:30"));
+
+        DateFormat dateInstance = DateFormat.getDateInstance();
+        DateFormat dateTimeInstance = DateFormat.getDateTimeInstance();
+        System.out.println(dateInstance.format(dt));//2017-12-4
+        System.out.println(dateTimeInstance.format(dt));//2017-12-4 9:47:39
+
     }
 }
