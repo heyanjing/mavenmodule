@@ -1,0 +1,7 @@
+java自带的原生jaxws
+
+参照 https://segmentfault.com/a/1190000004410299
+
+
+使用wsimport生成客户端代码:
+        鼠标右击client，选择webservice
