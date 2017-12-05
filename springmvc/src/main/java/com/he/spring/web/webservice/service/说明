@@ -1,0 +1,226 @@
+**********************************************************************************************************************************
+***************************************服务端********************************************************************************
+**********************************************************************************************************************************
+@WebService
+public interface IService {
+    @WebMethod
+    Person getPerson(String name);
+}
+
+@WebService
+@Component
+public class ServiceImpl implements IService {
+
+    @Override
+    public Person getPerson(String name) {
+        return new Person(name,22,new Date());
+    }
+}
+
+
+<!-- CXF -->
+<servlet>
+    <servlet-name>cxf</servlet-name>
+    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>cxf</servlet-name>
+    <url-pattern>/ws/*</url-pattern>
+</servlet-mapping>
+
+
+
+<!--cxf配置 方式一-->
+<jaxws:server id="ws1" address="/ws1">
+    <jaxws:serviceBean>
+        <ref bean="serviceImpl"/>
+    </jaxws:serviceBean>
+</jaxws:server>
+<!--cxf配置 方式二-->
+<jaxws:endpoint id="ws2" implementor="#serviceImpl" address="/ws2"/>
+<!--cxf配置 方式三      simple配置-->
+<simple:server id="ws3" serviceClass="com.he.spring.web.webservice.service.IService" address="/ws3">
+    <simple:serviceBean>
+        <ref bean="serviceImpl"/>
+    </simple:serviceBean>
+</simple:server>
+
+**********************************************************************************************************************************
+************************************************客户端************************************************************************
+**********************************************************************************************************************************
+/**
+ * Created by heyanjing on 2017/12/5 8:51.
+ * 方案一：静态代理客户端
+ */
+public class JaxWsClient {
+    private static final Logger log = LoggerFactory.getLogger(JaxWsClient.class);
+
+    public static void main(String[] args) {
+        //jax-ws方式
+        JaxWsProxyFactoryBean factory1 = new JaxWsProxyFactoryBean();
+        factory1.setAddress("http://localhost:8080/ws/ws1");
+        factory1.setServiceClass(IService.class);
+        IService iService1 = factory1.create(IService.class);
+        Person person = iService1.getPerson("何彦静1");
+        log.info("{}", person);
+
+        JaxWsProxyFactoryBean factory2 = new JaxWsProxyFactoryBean();
+        factory2.setAddress("http://localhost:8080/ws/ws2");
+        factory2.setServiceClass(IService.class);
+        IService iService2 = factory2.create(IService.class);
+        Person person2 = iService2.getPerson("何彦静2");
+        log.info("{}", person2);
+
+        //simple方式
+        ClientProxyFactoryBean factory3 = new ClientProxyFactoryBean();
+        factory3.setAddress("http://localhost:8080/ws/ws3");
+        factory3.setServiceClass(IService.class);
+        IService iService3 = factory3.create(IService.class);
+        Person person3 = iService3.getPerson("何彦静3");
+        log.info("{}", person3);
+    }
+}
+/**
+ * Created by heyanjing on 2017/12/5 8:54.
+ * 方案二：动态代理客户端
+ * 只能调用 JAX-WS 方式发布的 WS
+ */
+public class JaxWsDynamicClient {
+    private static final Logger log = LoggerFactory.getLogger(JaxWsDynamicClient.class);
+
+    public static void main(String[] args) {
+        JaxWsDynamicClientFactory factory = JaxWsDynamicClientFactory.newInstance();
+        Client client1 = factory.createClient("http://localhost:8080/ws/ws1?wsdl");
+        Client client2 = factory.createClient("http://localhost:8080/ws/ws2?wsdl");
+//        Client client3 = factory.createClient("http://localhost:8080/ws/ws3?wsdl");//启动报错
+
+        try {
+            Object[] results = client1.invoke("getPerson", "何彦静1");
+            log.info("{}", results[0]);
+            Object[] results2 = client2.invoke("getPerson", "何彦静2");
+            log.info("{}", results2[0]);
+//            Object[] results3 = client3.invoke("getPerson", "何彦静3");
+//            log.info("{}", results3[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+/**
+ * Created by heyanjing on 2017/12/5 8:57.
+ * 方案三：通用动态代理客户端
+ * 它不仅用于调用 JAX-WS 方式发布的 WS，也用于使用 simple 方式发布的 WS，更加智能了。
+ */
+public class DynamicClient {
+    private static final Logger log = LoggerFactory.getLogger(DynamicClient.class);
+
+    public static void main(String[] args) {
+        DynamicClientFactory factory = DynamicClientFactory.newInstance();
+        Client client1 = factory.createClient("http://localhost:8080/ws/ws1?wsdl");
+        Client client2 = factory.createClient("http://localhost:8080/ws/ws2?wsdl");
+        Client client3 = factory.createClient("http://localhost:8080/ws/ws3?wsdl");
+
+        try {
+            Object[] results1 = client1.invoke("getPerson", "何彦静1");
+            log.info("{}", results1[0]);
+            Object[] results2 = client2.invoke("getPerson", "何彦静2");
+            log.info("{}", results2[0]);
+            Object[] results3 = client3.invoke("getPerson", "何彦静3");
+            log.info("{}", results3[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+**********************************************************************************************************************************
+*************************************************基于spring的客户端配置***********************************************************************
+**********************************************************************************************************************************
+ <!--方式一-->
+    <bean id="factoryBean1" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
+        <property name="address" value="http://localhost:8080/ws/ws1"/>
+    </bean>
+    <bean id="serviceImpl1" factory-bean="factoryBean1" factory-method="create"/>
+
+    <bean id="factoryBean2" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
+        <property name="address" value="http://localhost:8080/ws/ws2"/>
+    </bean>
+    <bean id="serviceImpl2" factory-bean="factoryBean2" factory-method="create"/>
+
+    <bean id="factoryBean3" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
+        <property name="address" value="http://localhost:8080/ws/ws3"/>
+    </bean>
+    <bean id="serviceImpl3" factory-bean="factoryBean3" factory-method="create"/>
+<!--方式二-->
+    <jaxws:client id="serviceImpl11" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws1"/>
+    <jaxws:client id="serviceImpl22" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws2"/>
+    <jaxws:client id="serviceImpl33" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws3"/>
+**********************************************************************************************************************************
+*************************************************基于spring的客户端***********************************************************************
+**********************************************************************************************************************************
+@Controller
+public class SpringWsClient {
+    private static final Logger log = LoggerFactory.getLogger(SpringWsClient.class);
+    @Autowired
+    private IService serviceImpl1;
+    @Autowired
+    private IService serviceImpl2;
+    @Autowired
+    private IService serviceImpl3;
+    @Autowired
+    private IService serviceImpl11;
+    @Autowired
+    private IService serviceImpl22;
+    @Autowired
+    private IService serviceImpl33;
+
+    @RequestMapping("/spring/ws/client")
+    @ResponseBody
+    public Person getPerson() {
+        Person person1 = serviceImpl1.getPerson("何彦静1");
+        log.info("{}",person1);
+        Person person2 = serviceImpl2.getPerson("何彦静2");
+        log.info("{}",person2);
+//        Person person3 = serviceImpl3.getPerson("何彦静3");//simple方式的报错
+//        log.info("{}",person3);
+        Person person11 = serviceImpl11.getPerson("何彦静11");
+        log.info("{}",person11);
+        Person person22 = serviceImpl22.getPerson("何彦静22");
+        log.info("{}",person22);
+//        Person person33 = serviceImpl33.getPerson("何彦静33");//simple方式的报错
+//        log.info("{}",person33);
+        return  person22;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

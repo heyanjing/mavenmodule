@@ -46,4 +46,16 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- CXF -->
+    <servlet>
+        <servlet-name>cxf</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cxf</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>
