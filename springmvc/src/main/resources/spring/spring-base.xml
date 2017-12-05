@@ -3,6 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:simple="http://cxf.apache.org/simple"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd">
 
+    <bean class="com.he.spring.util.Springs"/>
+
     <context:property-placeholder location="classpath:config/config.properties"/>
 
     <context:component-scan base-package="com.he.spring.web">
@@ -11,7 +13,7 @@
     </context:component-scan>
 
     <!--**********************************************************************************************************************************
-    ***********************************************服务端****************************************************************************
+    ***********************************************jaxws服务端****************************************************************************
     **********************************************************************************************************************************-->
     <!--cxf配置 方式一-->
     <jaxws:server id="ws1" address="/ws1">
@@ -19,16 +21,10 @@
             <ref bean="serviceImpl"/>
         </jaxws:serviceBean>
     </jaxws:server>
-    <!--cxf配置 方式二-->
+    <!--cxf配置 方式二 推荐-->
     <jaxws:endpoint id="ws2" implementor="#serviceImpl" address="/ws2"/>
-    <!--cxf配置 方式三 -->
-    <simple:server id="ws3" serviceClass="com.he.spring.web.webservice.service.IService" address="/ws3">
-        <simple:serviceBean>
-            <ref bean="serviceImpl"/>
-        </simple:serviceBean>
-    </simple:server>
     <!--**********************************************************************************************************************************
-    *****************************************************spring方式的客户端***********************************************************************
+    *****************************************************jaxws spring方式的客户端***********************************************************************
     **********************************************************************************************************************************-->
     <!--方式一-->
     <bean id="factoryBean1" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
@@ -42,14 +38,26 @@
         <property name="address" value="http://localhost:8080/ws/ws2"/>
     </bean>
     <bean id="serviceImpl2" factory-bean="factoryBean2" factory-method="create"/>
-
-    <bean id="factoryBean3" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
-        <property name="address" value="http://localhost:8080/ws/ws3"/>
-    </bean>
-    <bean id="serviceImpl3" factory-bean="factoryBean3" factory-method="create"/>
-    <!--方式二-->
+    <!--方式二 推荐-->
     <jaxws:client id="serviceImpl11" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws1"/>
     <jaxws:client id="serviceImpl22" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws2"/>
-    <jaxws:client id="serviceImpl33" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws3"/>
+
+    <!--**********************************************************************************************************************************
+    **************************************************simple 方式的服务端和客户端********************************************************************************
+    **********************************************************************************************************************************-->
+    <simple:server id="simpleServiceImpl1" serviceClass="com.he.spring.web.webservice.service.ISimpleService" address="/simple">
+        <simple:serviceBean>
+            <bean class="com.he.spring.web.webservice.service.SimpleServiceImpl"/>
+        </simple:serviceBean>
+    </simple:server>
+    <!--方式一-->
+    <bean id="simpleClient1" class="com.he.spring.web.webservice.service.ISimpleService" factory-bean="frontendClientFactory" factory-method="create"/>
+    <bean id="frontendClientFactory" class="org.apache.cxf.frontend.ClientProxyFactoryBean">
+        <property name="serviceClass" value="com.he.spring.web.webservice.service.ISimpleService"/>
+        <property name="address" value="http://localhost:8080/ws/simple"/>
+    </bean>
+    <!--方式二 推荐-->
+    <simple:client id="simpleClient11" serviceClass="com.he.spring.web.webservice.service.ISimpleService" address="http://localhost:8080/ws/simple"/>
+
+
 </beans>

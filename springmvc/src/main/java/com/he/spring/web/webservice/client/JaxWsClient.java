@@ -1,6 +1,7 @@
 package com.he.spring.web.webservice.client;
 
 import com.he.spring.web.webservice.service.IService;
+import com.he.spring.web.webservice.service.ISimpleService;
 import com.he.spring.web.webservice.service.Person;
 import org.apache.cxf.frontend.ClientProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
@@ -15,7 +16,7 @@ public class JaxWsClient {
     private static final Logger log = LoggerFactory.getLogger(JaxWsClient.class);
 
     public static void main(String[] args) {
-//        jax-ws方式
+//jax-ws方式
         JaxWsProxyFactoryBean factory1 = new JaxWsProxyFactoryBean();
         factory1.setAddress("http://localhost:8080/ws/ws1");
         factory1.setServiceClass(IService.class);
@@ -32,9 +33,9 @@ public class JaxWsClient {
 
 //simple方式
         ClientProxyFactoryBean factory3 = new ClientProxyFactoryBean();
-        factory3.setAddress("http://localhost:8080/ws/ws3");
-        factory3.setServiceClass(IService.class);
-        IService iService3 = factory3.create(IService.class);
+        factory3.setAddress("http://localhost:8080/ws/simple");
+        factory3.setServiceClass(ISimpleService.class);
+        ISimpleService iService3 = factory3.create(ISimpleService.class);
         Person person3 = iService3.getPerson("何彦静3");
         log.info("{}", person3);
     }

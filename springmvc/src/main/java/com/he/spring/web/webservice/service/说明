@@ -1,202 +1,143 @@
+jaxws---需要基于注解等东西
+simple---只是一个简单的接口与实现
+具体对比
+    com.he.spring.web.webservice.service.IService
+    com.he.spring.web.webservice.service.ServiceImpl
+    com.he.spring.web.webservice.service.ISimpleService
+    com.he.spring.web.webservice.service.SimpleServiceImpl
+
+
+http://localhost:8080/ws
 **********************************************************************************************************************************
 ***************************************服务端********************************************************************************
 **********************************************************************************************************************************
-@WebService
-public interface IService {
-    @WebMethod
-    Person getPerson(String name);
-}
+基于jaxws
+            @WebService
+            public interface IService {
+                @WebMethod
+                Person getPerson(String name);
+            }
 
-@WebService
-@Component
-public class ServiceImpl implements IService {
+            @WebService
+            @Component
+            public class ServiceImpl implements IService {
 
-    @Override
-    public Person getPerson(String name) {
-        return new Person(name,22,new Date());
-    }
-}
+                @Override
+                public Person getPerson(String name) {
+                    return new Person(name,22,new Date());
+                }
+            }
+基于simple
+            public interface ISimpleService {
+                Person getPerson(String name);
+            }
+            public class SimpleServiceImpl implements  ISimpleService {
+                @Override
+                public Person getPerson(String name) {
+                    return new Person(name,22,new Date());
+                }
+            }
 
-
-<!-- CXF -->
-<servlet>
-    <servlet-name>cxf</servlet-name>
-    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>cxf</servlet-name>
-    <url-pattern>/ws/*</url-pattern>
-</servlet-mapping>
-
-
-
-<!--cxf配置 方式一-->
-<jaxws:server id="ws1" address="/ws1">
-    <jaxws:serviceBean>
-        <ref bean="serviceImpl"/>
-    </jaxws:serviceBean>
-</jaxws:server>
-<!--cxf配置 方式二-->
-<jaxws:endpoint id="ws2" implementor="#serviceImpl" address="/ws2"/>
-<!--cxf配置 方式三      simple配置-->
-<simple:server id="ws3" serviceClass="com.he.spring.web.webservice.service.IService" address="/ws3">
-    <simple:serviceBean>
-        <ref bean="serviceImpl"/>
-    </simple:serviceBean>
-</simple:server>
-
-**********************************************************************************************************************************
-************************************************客户端************************************************************************
-**********************************************************************************************************************************
-/**
- * Created by heyanjing on 2017/12/5 8:51.
- * 方案一：静态代理客户端
- */
-public class JaxWsClient {
-    private static final Logger log = LoggerFactory.getLogger(JaxWsClient.class);
-
-    public static void main(String[] args) {
-        //jax-ws方式
-        JaxWsProxyFactoryBean factory1 = new JaxWsProxyFactoryBean();
-        factory1.setAddress("http://localhost:8080/ws/ws1");
-        factory1.setServiceClass(IService.class);
-        IService iService1 = factory1.create(IService.class);
-        Person person = iService1.getPerson("何彦静1");
-        log.info("{}", person);
-
-        JaxWsProxyFactoryBean factory2 = new JaxWsProxyFactoryBean();
-        factory2.setAddress("http://localhost:8080/ws/ws2");
-        factory2.setServiceClass(IService.class);
-        IService iService2 = factory2.create(IService.class);
-        Person person2 = iService2.getPerson("何彦静2");
-        log.info("{}", person2);
-
-        //simple方式
-        ClientProxyFactoryBean factory3 = new ClientProxyFactoryBean();
-        factory3.setAddress("http://localhost:8080/ws/ws3");
-        factory3.setServiceClass(IService.class);
-        IService iService3 = factory3.create(IService.class);
-        Person person3 = iService3.getPerson("何彦静3");
-        log.info("{}", person3);
-    }
-}
-/**
- * Created by heyanjing on 2017/12/5 8:54.
- * 方案二：动态代理客户端
- * 只能调用 JAX-WS 方式发布的 WS
- */
-public class JaxWsDynamicClient {
-    private static final Logger log = LoggerFactory.getLogger(JaxWsDynamicClient.class);
-
-    public static void main(String[] args) {
-        JaxWsDynamicClientFactory factory = JaxWsDynamicClientFactory.newInstance();
-        Client client1 = factory.createClient("http://localhost:8080/ws/ws1?wsdl");
-        Client client2 = factory.createClient("http://localhost:8080/ws/ws2?wsdl");
-//        Client client3 = factory.createClient("http://localhost:8080/ws/ws3?wsdl");//启动报错
-
-        try {
-            Object[] results = client1.invoke("getPerson", "何彦静1");
-            log.info("{}", results[0]);
-            Object[] results2 = client2.invoke("getPerson", "何彦静2");
-            log.info("{}", results2[0]);
-//            Object[] results3 = client3.invoke("getPerson", "何彦静3");
-//            log.info("{}", results3[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-/**
- * Created by heyanjing on 2017/12/5 8:57.
- * 方案三：通用动态代理客户端
- * 它不仅用于调用 JAX-WS 方式发布的 WS，也用于使用 simple 方式发布的 WS，更加智能了。
- */
-public class DynamicClient {
-    private static final Logger log = LoggerFactory.getLogger(DynamicClient.class);
-
-    public static void main(String[] args) {
-        DynamicClientFactory factory = DynamicClientFactory.newInstance();
-        Client client1 = factory.createClient("http://localhost:8080/ws/ws1?wsdl");
-        Client client2 = factory.createClient("http://localhost:8080/ws/ws2?wsdl");
-        Client client3 = factory.createClient("http://localhost:8080/ws/ws3?wsdl");
-
-        try {
-            Object[] results1 = client1.invoke("getPerson", "何彦静1");
-            log.info("{}", results1[0]);
-            Object[] results2 = client2.invoke("getPerson", "何彦静2");
-            log.info("{}", results2[0]);
-            Object[] results3 = client3.invoke("getPerson", "何彦静3");
-            log.info("{}", results3[0]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-**********************************************************************************************************************************
-*************************************************基于spring的客户端配置***********************************************************************
-**********************************************************************************************************************************
- <!--方式一-->
-    <bean id="factoryBean1" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
-        <property name="address" value="http://localhost:8080/ws/ws1"/>
-    </bean>
-    <bean id="serviceImpl1" factory-bean="factoryBean1" factory-method="create"/>
-
-    <bean id="factoryBean2" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
-        <property name="address" value="http://localhost:8080/ws/ws2"/>
-    </bean>
-    <bean id="serviceImpl2" factory-bean="factoryBean2" factory-method="create"/>
-
-    <bean id="factoryBean3" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
-        <property name="address" value="http://localhost:8080/ws/ws3"/>
-    </bean>
-    <bean id="serviceImpl3" factory-bean="factoryBean3" factory-method="create"/>
-<!--方式二-->
-    <jaxws:client id="serviceImpl11" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws1"/>
-    <jaxws:client id="serviceImpl22" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws2"/>
-    <jaxws:client id="serviceImpl33" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws3"/>
-**********************************************************************************************************************************
-*************************************************基于spring的客户端***********************************************************************
-**********************************************************************************************************************************
-@Controller
-public class SpringWsClient {
-    private static final Logger log = LoggerFactory.getLogger(SpringWsClient.class);
-    @Autowired
-    private IService serviceImpl1;
-    @Autowired
-    private IService serviceImpl2;
-    @Autowired
-    private IService serviceImpl3;
-    @Autowired
-    private IService serviceImpl11;
-    @Autowired
-    private IService serviceImpl22;
-    @Autowired
-    private IService serviceImpl33;
-
-    @RequestMapping("/spring/ws/client")
-    @ResponseBody
-    public Person getPerson() {
-        Person person1 = serviceImpl1.getPerson("何彦静1");
-        log.info("{}",person1);
-        Person person2 = serviceImpl2.getPerson("何彦静2");
-        log.info("{}",person2);
-//        Person person3 = serviceImpl3.getPerson("何彦静3");//simple方式的报错
-//        log.info("{}",person3);
-        Person person11 = serviceImpl11.getPerson("何彦静11");
-        log.info("{}",person11);
-        Person person22 = serviceImpl22.getPerson("何彦静22");
-        log.info("{}",person22);
-//        Person person33 = serviceImpl33.getPerson("何彦静33");//simple方式的报错
-//        log.info("{}",person33);
-        return  person22;
-    }
-
-}
+web.xml
+        <!-- CXF -->
+        <servlet>
+            <servlet-name>cxf</servlet-name>
+            <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>cxf</servlet-name>
+            <url-pattern>/ws/*</url-pattern>
+        </servlet-mapping>
 
 
+spring 配置
+            jaxws 方式
+                        服务端配置
+                                    <!--cxf配置 方式一-->
+                                    <jaxws:server id="ws1" address="/ws1">
+                                        <jaxws:serviceBean>
+                                            <ref bean="serviceImpl"/>
+                                        </jaxws:serviceBean>
+                                    </jaxws:server>
+                                    <!--cxf配置 方式二 推荐 -->
+                                    <jaxws:endpoint id="ws2" implementor="#serviceImpl" address="/ws2"/>
+                         客户端配置
+                                    <!--方式一-->
+                                    <bean id="factoryBean1" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+                                        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
+                                        <property name="address" value="http://localhost:8080/ws/ws1"/>
+                                    </bean>
+                                    <bean id="serviceImpl1" factory-bean="factoryBean1" factory-method="create"/>
+
+                                    <bean id="factoryBean2" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+                                        <property name="serviceClass" value="com.he.spring.web.webservice.service.IService"/>
+                                        <property name="address" value="http://localhost:8080/ws/ws2"/>
+                                    </bean>
+                                    <bean id="serviceImpl2" factory-bean="factoryBean2" factory-method="create"/>
+                                    <!--方式二  推荐-->
+                                    <jaxws:client id="serviceImpl11" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws1"/>
+                                    <jaxws:client id="serviceImpl22" serviceClass="com.he.spring.web.webservice.service.IService" address="http://localhost:8080/ws/ws2"/>
+            simple 方式
+                         服务端配置
+                                    <simple:server id="simpleServiceImpl1" serviceClass="com.he.spring.web.webservice.service.ISimpleService" address="/simple">
+                                         <simple:serviceBean>
+                                             <bean class="com.he.spring.web.webservice.service.SimpleServiceImpl" />
+                                         </simple:serviceBean>
+                                     </simple:server>
+                          客户端配置
+                                      <!--方式一-->
+                                      <bean id="simpleClient1" class="com.he.spring.web.webservice.service.ISimpleService" factory-bean="frontendClientFactory" factory-method="create"/>
+                                      <bean id="frontendClientFactory" class="org.apache.cxf.frontend.ClientProxyFactoryBean">
+                                          <property name="serviceClass" value="com.he.spring.web.webservice.service.ISimpleService"/>
+                                          <property name="address" value="http://localhost:8080/ws/simple"/>
+                                      </bean>
+                                      <!--方式二 推荐-->
+                                      <simple:client id="simpleClient11" serviceClass="com.he.spring.web.webservice.service.ISimpleService" address="http://localhost:8080/ws/simple"/>
+
+客户端的使用
+http://localhost:8080/spring/ws/client
+
+            @Controller
+            public class SpringWsClient {
+                private static final Logger log = LoggerFactory.getLogger(SpringWsClient.class);
+                @Autowired
+                private IService serviceImpl1;
+                @Autowired
+                private IService serviceImpl2;
+                @Autowired
+                private IService serviceImpl11;
+                @Autowired
+                private IService serviceImpl22;
+                @Autowired
+                private ISimpleService simpleClient1;
+                @Autowired
+                private ISimpleService simpleClient11;
+
+
+                @RequestMapping("/spring/ws/client")
+                @ResponseBody
+                public Person getPerson() {
+            //        基于simple方式
+            //        ISimpleService simpleClient1 = Springs.getBean("simpleClient1", ISimpleService.class);
+                    Person xx1 = simpleClient1.getPerson("xx1");
+                    log.info("{}",xx1);
+            //        ISimpleService simpleClient11 = Springs.getBean("simpleClient11", ISimpleService.class);
+                    Person xx11 = simpleClient11.getPerson("xx11");
+                    log.info("{}",xx11);
+
+            //      基于jaxws方式
+                    Person person1 = serviceImpl1.getPerson("何彦静1");
+                    log.info("{}",person1);
+                    Person person2 = serviceImpl2.getPerson("何彦静2");
+                    log.info("{}",person2);
+                    Person person11 = serviceImpl11.getPerson("何彦静11");
+                    log.info("{}",person11);
+                    Person person22 = serviceImpl22.getPerson("何彦静22");
+                    log.info("{}",person22);
+                    return  person22;
+                }
+
+            }
 
 
 

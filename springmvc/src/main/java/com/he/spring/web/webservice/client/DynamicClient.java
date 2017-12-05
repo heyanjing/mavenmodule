@@ -17,7 +17,7 @@ public class DynamicClient {
         DynamicClientFactory factory = DynamicClientFactory.newInstance();
         Client client1 = factory.createClient("http://localhost:8080/ws/ws1?wsdl");
         Client client2 = factory.createClient("http://localhost:8080/ws/ws2?wsdl");
-        Client client3 = factory.createClient("http://localhost:8080/ws/ws3?wsdl");
+        Client client3 = factory.createClient("http://localhost:8080/ws/simple?wsdl");
 
         try {
             Object[] results1 = client1.invoke("getPerson", "何彦静1");
