@@ -21,14 +21,14 @@ public class JaxWsClient {
         factory1.setAddress("http://localhost:8080/ws/ws1");
         factory1.setServiceClass(IService.class);
         IService iService1 = factory1.create(IService.class);
-        Person person = iService1.getPerson("何彦静1");
+        Person person = iService1.getPerson("name1");
         log.info("{}", person);
 
         JaxWsProxyFactoryBean factory2 = new JaxWsProxyFactoryBean();
         factory2.setAddress("http://localhost:8080/ws/ws2");
         factory2.setServiceClass(IService.class);
         IService iService2 = factory2.create(IService.class);
-        Person person2 = iService2.getPerson("何彦静2");
+        Person person2 = iService2.getPerson("name2");
         log.info("{}", person2);
 
 //simple方式
@@ -36,7 +36,7 @@ public class JaxWsClient {
         factory3.setAddress("http://localhost:8080/ws/simple");
         factory3.setServiceClass(ISimpleService.class);
         ISimpleService iService3 = factory3.create(ISimpleService.class);
-        Person person3 = iService3.getPerson("何彦静3");
+        Person person3 = iService3.getPerson("name1");
         log.info("{}", person3);
     }
 }
