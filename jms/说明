@@ -1,0 +1,24 @@
+七、JMS消息结构
+JMS客户端使用JMS消息与系统通讯，JMS消息虽然格式简单但是非常灵活， JMS消息由三部分组成：
+1、消息头
+JMS消息头预定义了若干字段用于客户端与JMS提供者之间识别和发送消息，预编译头如下：
+– JMSDestination ： 消息发送的目的地，主要是指Queue和Topic，由session创建而由生产者的send方法设置.
+– JMSDeliveryMode：传送模式:有两种即久模式和非持久模式。一条持久性的消息应该被传输"一次仅仅一次"，这就意味着如果JMS提供者出现故障，该消息并不会丢失，它会在服务器恢复之后再次传递。一条非持久的消息最多会传递一次，这意味着服务器出现故障，该消息将永远丢失。由session穿件由消息生产者的send方法设置
+– JMSMessageID：唯一识别每个消息的标识，由JMS消息生产者产生。由send方法设置
+– JMSTimestamp：一个JMS Provider在调用send()方法时自动设置，它是消息被发送和消费者实际接收的时间差。由客户端设置
+– JMSCorrelationID：用来连接到另外一个消息，典型的应用是在回复消息中连接到原消息。在大多数情况下，JMSCorrelationID用于将一条消息标记为对JMSMessageID标示的上一条消息的应答，不过，JMSCorrelationID可以是任何值，不仅仅是JMSMessageID。由客户端设置
+– JMSReplyTo：提供本消息回复消息的目的地址,由客户端设置
+– JMSRedelivered：如果一个客户端收到一个设置了JMSRedelivered属性的消息，则表示可能客户端曾经在早些时候收到过该消息，但并没有签收(acknowledged)。如果该消息被重新传送，JMSRedelivered=true 否则 JMSRedelivered=flase 。由JMS Provider设置
+– JMSType：消息类型的标识符，由客户端设置
+– JMSExpiration：消息过期时间，等于Destination的send方法中的timeToLive值加上发送时刻的GMT的时间值。如果timeToLive值等于零，则JMSExpiration被设置为零，表示该消息永不过期。如果发送后，在消息过期时间之后消息还没有被发送到目的地，则该消息被清除。由send方法设置
+– JMSPriority：消息优先级，从0-9十个级别，0-4是普通消息，5-9是加急消息。JMS不要求JMS Provider严格按照这十个优先级发送消息，但必须保证加急消息要先于普通消息到达，默认是4级。由send方法设置
+一个消息的消息头有这些属性，我们可以按照需要对这个消息的消息进行设计，在将这个消息使用消息生产者的send（）方法发送到消息服务上。
+2、消息属性
+我们可以给消息设置自定义属性，这些属性主要是提供给应用程序的。对于实现消息过滤功能，消息属性非常有用，JMS API定义了一些标准属性，JMS服务提供者可以选择性的提供部分标准属性。
+3、消息体
+在消息体中，JMS API定义了五种类型的消息格式，让我们可以以不同的形式发送和接受消息，并提供了对已有消息格式的兼容。不同的消息类型如下：
+Text message : javax.jms.TextMessage，表示一个文本对象。
+Object message : javax.jms.ObjectMessage，表示一个JAVA对象。
+Bytes message : javax.jms.BytesMessage，表示字节数据。
+Stream message :javax.jms.StreamMessage，表示java原始值数据流。
+Map message : javax.jms.MapMessage，表示键值对。
