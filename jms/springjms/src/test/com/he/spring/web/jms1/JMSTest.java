@@ -1,5 +1,6 @@
 package com.he.spring.web.jms1;
 
+import com.he.spring.web.TestBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -34,18 +35,19 @@ public class JMSTest {
     @Test
     public void send() throws Exception {
 //        sendTextMessage(destination, "发送Queue消息");
-        sendTextMessage(destinationTopic,"发送Topic消息");
+//        sendTextMessage(destinationTopic,"发送Topic消息");
+//
 
-
-//        sendObjectMessage(destination, new TestBean(22, "何彦静"));//传递json对象有问题
+//        sendObjectMessage(destination, new TestBean(22, "何彦静"));
+        sendBean(destination, new TestBean(22, "何彦静"));//传递json对象有问题
 
 
     }
 
     @Test
     public void receive() {
-//        Object msg = jmsTemplate.receiveAndConvert(destination);
-        Object msg = jmsTemplate.receiveAndConvert(destinationTopic);
+        Object msg = jmsTemplate.receiveAndConvert(destination);
+//        Object msg = jmsTemplate.receiveAndConvert(destinationTopic);
 
         log.warn("{}",msg);
     }
@@ -67,5 +69,9 @@ public class JMSTest {
             }
         });
         log.info("{}", object);
+    }
+
+    public void sendBean(Destination destination, Serializable object){
+        jmsTemplate.convertAndSend(destination,object);
     }
 }

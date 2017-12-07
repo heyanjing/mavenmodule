@@ -65,7 +65,7 @@
     <!--Spring JmsTemplate 的消息生产者 end-->
 
     <!-- 配置消息队列监听者（Queue） -->
-    <bean id="queueMessageListener" class="com.he.spring.web.MsgListener" />
+    <bean id="queueMessageListener" class="com.he.spring.web.MyMessageListener" />
 
     <!-- 显示注入消息监听容器（Queue），配置连接工厂，监听的目标是demoQueueDestination，监听器是上面定义的监听器 -->
     <bean id="queueListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">

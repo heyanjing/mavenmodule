@@ -11,12 +11,12 @@ import javax.jms.TextMessage;
 /**
  * Created by heyanjing on 2017/12/6 11:35.
  */
-public class MsgListener implements MessageListener {
-    private static final Logger log = LoggerFactory.getLogger(MsgListener.class);
+public class MyMessageListener implements MessageListener {
+    private static final Logger log = LoggerFactory.getLogger(MyMessageListener.class);
     public void onMessage(Message message) {
         TextMessage tm = (TextMessage) message;
         try {
-            log.warn("监听到了文本消息：\t" + tm.getText());
+            log.warn("MyMessageListener监听到了文本消息：\t" + tm.getText());
             //do something ...
         } catch (JMSException e) {
             e.printStackTrace();

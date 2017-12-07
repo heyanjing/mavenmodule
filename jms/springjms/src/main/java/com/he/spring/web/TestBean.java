@@ -1,4 +1,4 @@
-package com.he.spring.web.jms1;
+package com.he.spring.web;
 
 import java.io.Serializable;
 
@@ -32,5 +32,13 @@ public class TestBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "TestBean{" +
+                "age=" + age +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
