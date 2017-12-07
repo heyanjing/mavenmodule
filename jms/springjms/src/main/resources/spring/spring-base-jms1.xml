@@ -105,11 +105,23 @@
         <property name="destination" ref="destination" />
         <property name="messageListener" ref="mySessionAwareMessageListener" />
     </bean>-->
+
+    <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+
+
     <bean id="jmsContainer3" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactoryQueue" />
         <property name="destination" ref="destination" />
         <property name="messageListener" ref="messageListenerAdapter" />
+        <!--该属性值默认为false，这样JMS在进行消息监听的时候就会进行事务控制，当在接收消息时监听器执行失败时JMS就会对接收到的消息进行回滚，对于SessionAwareMessageListener在接收到消息后发送一个返回消息时也处于同一事务下，但是对于其他操作如数据库访问等将不属于该事务控制。-->
+        <property name="sessionTransacted" value="true"/>
+        <!-- 如果想接收消息和数据库访问处于同一事务中，那么我们就可以配置一个外部的事务管理同时配置一个支持外部事务管理的消息监听容器（如DefaultMessageListenerContainer）。要配置这样一个参与分布式事务管理的消息监听容器，我们可以配置一个JtaTransactionManager，当然底层的JMS ConnectionFactory需要能够支持分布式事务管理，并正确地注册我们的JtaTransactionManager。这样消息监听器进行消息接收和对应的数据库访问就会处于同一数据库控制下，当消息接收失败或数据库访问失败都会进行事务回滚操作。
+        <property name="transactionManager" ref="jtaTransactionManager"/>
+        -->
     </bean>
+
+
+
     <bean id="jmsContainerTopic1" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactoryTopic1" />
         <property name="destination" ref="destinationTopic" />
