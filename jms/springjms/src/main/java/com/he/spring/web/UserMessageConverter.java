@@ -33,7 +33,7 @@ public class UserMessageConverter implements MessageConverter {
         String json = ((TextMessage) message).getText();
         Object object = null;
         try {
-            object = mapper.readValue(json, User.class);
+            object = mapper.readValue(json, TestBean.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

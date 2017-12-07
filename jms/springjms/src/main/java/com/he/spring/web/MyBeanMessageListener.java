@@ -13,7 +13,7 @@ public class MyBeanMessageListener {
         log.warn("MyBeanMessageListener，消息内容是：" + message);
     }
 
-    public Object receiveMessage(TestBean bean) {
+    public Object receiveMessage(Object bean) {
         log.warn("MyBeanMessageListener，消息内容是：" + bean);
 
         return "MyBeanMessageListener，消息内容是：" + bean;

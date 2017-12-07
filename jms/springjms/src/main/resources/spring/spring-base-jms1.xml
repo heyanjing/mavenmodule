@@ -54,12 +54,20 @@
         SimpleMessageConverter
         MappingJackson2MessageConverter
         <property name="messageConverter">
-            <bean class="org.springframework.jms.support.converter.MappingJackson2MessageConverter"/>
-        </property>
-        <property name="messageConverter">
             <bean class="com.he.spring.web.UserMessageConverter"/>
         </property>
         -->
+        <property name="messageConverter">
+            <bean class="org.springframework.jms.support.converter.MappingJackson2MessageConverter">
+                <property name="targetType">
+                    <!--枚举类型要想注入到类中，一定要先使用org.springframework.beans.factory.config.FieldRetrievingFactoryBean类将枚举类型进行转换-->
+                    <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                        <property name="staticField" value="org.springframework.jms.support.converter.MessageType.TEXT" />
+                    </bean>
+                </property>
+                <property name="typeIdPropertyName"  value="he_"/>
+            </bean>
+        </property>
         <property name="receiveTimeout" value="30000"/>
         <!--开启订阅模式
         <property name="pubSubDomain" value="true"/>
@@ -101,9 +109,6 @@
         <property name="connectionFactory" ref="connectionFactoryQueue" />
         <property name="destination" ref="destination" />
         <property name="messageListener" ref="messageListenerAdapter" />
-        <property name="messageConverter">
-            <bean class="org.springframework.jms.support.converter.MappingJackson2MessageConverter"/>
-        </property>
     </bean>
     <bean id="jmsContainerTopic1" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactoryTopic1" />
