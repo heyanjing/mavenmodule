@@ -1,4 +1,4 @@
-package com.he.spring.web;
+package com.he.spring.web.jms;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

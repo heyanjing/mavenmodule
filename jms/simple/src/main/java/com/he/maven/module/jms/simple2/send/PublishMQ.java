@@ -20,10 +20,12 @@ public class PublishMQ {
         connection.start();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         //创建话题
-        Topic topic = session.createTopic("myTopic.messages");
+        Topic topic = session.createTopic("myTopic.messagesxx");
+
         //为话题创建消息生产者
         MessageProducer producer = session.createProducer(topic);
-        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+//        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
         int i=0;
         while(i<2) {
             i++;
