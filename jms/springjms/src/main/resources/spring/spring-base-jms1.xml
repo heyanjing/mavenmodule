@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.he.spring.web">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
 
     <!--ActiveMQ相关配置 -->
     <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="tcp://127.0.0.1:61616" />
+        <property name="brokerURL" value="tcp://127.0.0.1:61616"/>
         <property name="userName" value="admin"></property>
         <property name="password" value="admin"></property>
     </bean>
@@ -18,20 +23,20 @@
     <!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
     <bean id="connectionFactoryQueue" class="org.springframework.jms.connection.CachingConnectionFactory">
         <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
-        <property name="targetConnectionFactory" ref="targetConnectionFactory" />
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
         <property name="sessionCacheSize" value="100"/>
     </bean>
     <bean id="connectionFactoryTopic1" class="org.springframework.jms.connection.CachingConnectionFactory">
         <!--消费者标示id -->
-        <property name="clientId" value="clientId_001" />
+        <property name="clientId" value="clientId_001"/>
         <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
-        <property name="targetConnectionFactory" ref="targetConnectionFactory" />
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
     </bean>
     <bean id="connectionFactoryTopic2" class="org.springframework.jms.connection.CachingConnectionFactory">
         <!--消费者标示id -->
-        <property name="clientId" value="clientId_002" />
+        <property name="clientId" value="clientId_002"/>
         <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
-        <property name="targetConnectionFactory" ref="targetConnectionFactory" />
+        <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
     </bean>
     <!-- queue目的地配置 -->
     <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
@@ -62,19 +67,19 @@
                 <property name="targetType">
                     <!--枚举类型要想注入到类中，一定要先使用org.springframework.beans.factory.config.FieldRetrievingFactoryBean类将枚举类型进行转换-->
                     <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-                        <property name="staticField" value="org.springframework.jms.support.converter.MessageType.TEXT" />
+                        <property name="staticField" value="org.springframework.jms.support.converter.MessageType.TEXT"/>
                     </bean>
                 </property>
-                <property name="typeIdPropertyName"  value="he_"/>
+                <property name="typeIdPropertyName" value="he_"/>
             </bean>
         </property>
         <property name="receiveTimeout" value="30000"/>
         <!--开启订阅模式
         <property name="pubSubDomain" value="true"/>
         -->
-        <property name="sessionAcknowledgeMode" value="1" />
+        <property name="sessionAcknowledgeMode" value="1"/>
         <!-- deliveryMode, priority, timeToLive 的开关，要生效，必须配置explicitQosEnabled为true，默认false-->
-        <property name="explicitQosEnabled" value="true" />
+        <property name="explicitQosEnabled" value="true"/>
         <!-- 发送模式  DeliveryMode.NON_PERSISTENT=1:非持久 ; DeliveryMode.PERSISTENT=2:持久-->
         <property name="deliveryMode" value="2"/>
     </bean>
@@ -100,50 +105,55 @@
         <property name="destination" ref="destination" />
         <property name="messageListener" ref="myMessageListener" />
     </bean>-->
-   <!-- <bean id="jmsContainer2" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactoryQueue" />
-        <property name="destination" ref="destination" />
-        <property name="messageListener" ref="mySessionAwareMessageListener" />
-    </bean>-->
+    <!-- <bean id="jmsContainer2" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+         <property name="connectionFactory" ref="connectionFactoryQueue" />
+         <property name="destination" ref="destination" />
+         <property name="messageListener" ref="mySessionAwareMessageListener" />
+     </bean>-->
 
-    <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>
+    <!-- <bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"/>-->
 
-
-    <bean id="jmsContainer3" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactoryQueue" />
-        <property name="destination" ref="destination" />
-        <property name="messageListener" ref="messageListenerAdapter" />
-        <!--该属性值默认为false，这样JMS在进行消息监听的时候就会进行事务控制，当在接收消息时监听器执行失败时JMS就会对接收到的消息进行回滚，对于SessionAwareMessageListener在接收到消息后发送一个返回消息时也处于同一事务下，但是对于其他操作如数据库访问等将不属于该事务控制。-->
-        <property name="sessionTransacted" value="true"/>
-        <!-- 如果想接收消息和数据库访问处于同一事务中，那么我们就可以配置一个外部的事务管理同时配置一个支持外部事务管理的消息监听容器（如DefaultMessageListenerContainer）。要配置这样一个参与分布式事务管理的消息监听容器，我们可以配置一个JtaTransactionManager，当然底层的JMS ConnectionFactory需要能够支持分布式事务管理，并正确地注册我们的JtaTransactionManager。这样消息监听器进行消息接收和对应的数据库访问就会处于同一数据库控制下，当消息接收失败或数据库访问失败都会进行事务回滚操作。
-        <property name="transactionManager" ref="jtaTransactionManager"/>
-        -->
-    </bean>
-
+        <bean id="jmsContainer3" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+            <property name="connectionFactory" ref="connectionFactoryQueue" />
+            <property name="destination" ref="destination" />
+            <property name="messageListener" ref="messageListenerAdapter" />
+            <!--该属性值默认为false，这样JMS在进行消息监听的时候就会进行事务控制，当在接收消息时监听器执行失败时JMS就会对接收到的消息进行回滚，对于SessionAwareMessageListener在接收到消息后发送一个返回消息时也处于同一事务下，但是对于其他操作如数据库访问等将不属于该事务控制。-->
+            <property name="sessionTransacted" value="true"/>
+            <!-- 如果想接收消息和数据库访问处于同一事务中，那么我们就可以配置一个外部的事务管理同时配置一个支持外部事务管理的消息监听容器（如DefaultMessageListenerContainer）。要配置这样一个参与分布式事务管理的消息监听容器，我们可以配置一个JtaTransactionManager，当然底层的JMS ConnectionFactory需要能够支持分布式事务管理，并正确地注册我们的JtaTransactionManager。这样消息监听器进行消息接收和对应的数据库访问就会处于同一数据库控制下，当消息接收失败或数据库访问失败都会进行事务回滚操作。
+            <property name="transactionManager" ref="jtaTransactionManager"/>
+            -->
+        </bean>
 
 
     <bean id="jmsContainerTopic1" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactoryTopic1" />
-        <property name="destination" ref="destinationTopic" />
-        <property name="messageListener" ref="myMessageListener" />
+        <property name="connectionFactory" ref="connectionFactoryTopic1"/>
+        <property name="destination" ref="destinationTopic"/>
+        <property name="messageListener" ref="myMessageListener"/>
         <!-- 发布订阅模式 -->
-        <property name="pubSubDomain" value="true" />
+        <property name="pubSubDomain" value="true"/>
         <!-- 消息持久化值设置为true -->
-        <property name="subscriptionDurable" value="true" />
+        <property name="subscriptionDurable" value="true"/>
         <!-- 接收者ID -->
-        <property name="clientId" value="clientId_001" />
-        <property name="durableSubscriptionName" value="clientId_001" />
+        <property name="clientId" value="clientId_001"/>
+        <property name="durableSubscriptionName" value="clientId_001"/>
     </bean>
     <bean id="jmsContainerTopic2" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="connectionFactoryTopic2" />
-        <property name="destination" ref="destinationTopic" />
-        <property name="messageListener" ref="myMessageListener" />
+        <property name="connectionFactory" ref="connectionFactoryTopic2"/>
+        <property name="destination" ref="destinationTopic"/>
+        <property name="messageListener" ref="myMessageListener"/>
         <!-- 发布订阅模式 -->
-        <property name="pubSubDomain" value="true" />
+        <property name="pubSubDomain" value="true"/>
         <!-- 消息持久化值设置为true -->
-        <property name="subscriptionDurable" value="true" />
+        <property name="subscriptionDurable" value="true"/>
         <!-- 接收者ID -->
-        <property name="clientId" value="clientId_002" />
-        <property name="durableSubscriptionName" value="clientId_002" />
+        <property name="clientId" value="clientId_002"/>
+        <property name="durableSubscriptionName" value="clientId_002"/>
+    </bean>
+
+    <!--注解监听-->
+    <jms:annotation-driven/>
+    <bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
+        <property name="connectionFactory" ref="connectionFactoryQueue"/>
+        <property name="concurrency" value="3-10"/>
     </bean>
 </beans>
