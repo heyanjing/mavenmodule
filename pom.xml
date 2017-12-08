@@ -25,6 +25,7 @@
         <module>temp</module>
         <module>jaxws</module>
         <module>jms</module>
+        <module>springemail</module>
     </modules>
 
     <properties>
