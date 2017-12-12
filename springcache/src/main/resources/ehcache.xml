@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache  name="cacheManagerName" updateCheck="false">
+	<!--
+	diskStore元素是用来指定磁盘存储的路径的，其只接收一个参数path，表示表示磁盘存储的路径
+	-->
+	<diskStore path="d:/ehcache/data"/>
+	<!-- 生产  -->
+	<defaultCache
+		maxEntriesLocalHeap="10000"
+		eternal="false"
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120"
+		overflowToDisk="true"
+		diskPersistent="false"
+		/>
+
+	<cache name="userCheatCache"
+		maxEntriesLocalHeap="2000"
+		eternal="false"
+		timeToLiveSeconds="100"
+		overflowToDisk="true"
+		diskPersistent="true"
+		statistics="true">
+	</cache>
+
+    <cache name="passwordRetryCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+    <cache name="shiroSessionCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+	<!-- 验证码缓存 3分钟有效-->
+	<cache name="mobileCodeCache"
+		maxEntriesLocalHeap="2000"
+		eternal="false"
+		timeToLiveSeconds ="30000"
+		overflowToDisk="true"
+		statistics="true">
+	</cache>
+
+
+</ehcache>

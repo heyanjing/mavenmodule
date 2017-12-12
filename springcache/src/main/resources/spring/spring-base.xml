@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:simple="http://cxf.apache.org/simple" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+    <context:component-scan base-package="com.he.spring.cache"/>
+
+    <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" id="ehCacheManager">
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>
+    <bean class="org.springframework.cache.ehcache.EhCacheCacheManager" id="cacheManager">
+        <property name="cacheManager" ref="ehCacheManager"/>
+        <!--transactionAware表示是否事务环绕的，如果true，则如果事务回滚，缓存也回滚，默认false。-->
+        <property name="transactionAware" value="true"/>
+    </bean>
+
+
+</beans>
