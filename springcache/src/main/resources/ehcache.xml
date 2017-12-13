@@ -1,53 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache  name="cacheManagerName" updateCheck="false">
-	<!--
-	diskStore元素是用来指定磁盘存储的路径的，其只接收一个参数path，表示表示磁盘存储的路径
-	-->
-	<diskStore path="d:/ehcache/data"/>
-	<!-- 生产  -->
-	<defaultCache
-		maxEntriesLocalHeap="10000"
-		eternal="false"
-		timeToIdleSeconds="120"
-		timeToLiveSeconds="120"
-		overflowToDisk="true"
-		diskPersistent="false"
-		/>
+<!--
+官方示例
+http://www.ehcache.org/generated/2.10.0/html/ehc-all/#page/Ehcache_Documentation_Set%2Fco-cfgbasics_xml_configuration.html%23
 
-	<cache name="userCheatCache"
-		maxEntriesLocalHeap="2000"
-		eternal="false"
-		timeToLiveSeconds="100"
-		overflowToDisk="true"
-		diskPersistent="true"
-		statistics="true">
-	</cache>
 
-    <cache name="passwordRetryCache"
+diskStore：配置DiskStore，当需要使用磁盘保存的时候，需要对象实现序列化接口  属性：path 配置文件存储位置，如user.home，user.dir，java.io.tmpdir
+必须属性：
+   name:设置缓存的名称，用于标志缓存,惟一
+   maxEntriesLocalHeap:在内存中最大的对象数量
+   maxEntriesLocalDisk：在DiskStore中的最大对象数量，如为0，则没有限制
+   eternal：设置元素是否永久的，如果为永久，则timeout忽略
+   overflowToDisk：是否当memory中的数量达到限制后，保存到Disk
+
+可选的属性：
+   timeToIdleSeconds：设置元素过期前的空闲时间
+   timeToLiveSeconds：设置元素过期前的活动时间
+   diskPersistent：是否在虚拟机启动时持久化。默认为false
+-->
+<ehcache name="cacheManagerName" updateCheck="false">
+    <diskStore path="d:/ehcache/data"/>
+    <defaultCache
+            maxEntriesLocalHeap="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            diskPersistent="false"/>
+
+    <cache name="user"
+           maxEntriesLocalHeap="1"
+           eternal="false"
+           timeToLiveSeconds="3600"
+           overflowToDisk="true"
+           diskPersistent="true"/>
+    <cache name="userCheatCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
-           timeToIdleSeconds="600"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
-    <cache name="shiroSessionCache"
-           maxEntriesLocalHeap="2000"
-           eternal="false"
-           timeToIdleSeconds="60"
-           timeToLiveSeconds="0"
-           overflowToDisk="false"
-           statistics="true">
-    </cache>
-
-	<!-- 验证码缓存 3分钟有效-->
-	<cache name="mobileCodeCache"
-		maxEntriesLocalHeap="2000"
-		eternal="false"
-		timeToLiveSeconds ="30000"
-		overflowToDisk="true"
-		statistics="true">
-	</cache>
+           timeToLiveSeconds="3600"
+           overflowToDisk="true"
+           diskPersistent="true"/>
 
 
 </ehcache>
