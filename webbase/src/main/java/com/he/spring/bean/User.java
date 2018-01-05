@@ -19,7 +19,7 @@ public class User implements java.io.Serializable {
 
     private Integer id;
 
-    /*
+    /**
      * 测试的时候，发现在页面获取到的数据传到User模式后，都是非空的。
      */
     @NotNull(message = "${user.name.null}")

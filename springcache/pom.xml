@@ -5,7 +5,7 @@
     <parent>
         <artifactId>maven-module</artifactId>
         <groupId>com.he.maven.module</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-RELEASES</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.he.maven.module</groupId>
             <artifactId>log4j2</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0-RELEASES</version>
         </dependency>
 
 

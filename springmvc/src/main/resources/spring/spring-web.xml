@@ -14,7 +14,7 @@
     <!--
         ignoreDefaultModelOnRedirect 用来标记model中的属性在重定向后不能使用
     -->
-    <mvc:annotation-driven enable-matrix-variables="false" ignore-default-model-on-redirect="true">
+    <mvc:annotation-driven  enable-matrix-variables="false" ignore-default-model-on-redirect="true">
         <mvc:async-support task-executor="myThreadPool" default-timeout="6000"><!--定义6秒为默认值  DeferredResult 可以通过setXX方法更改默认值,Callable  也可以封装成WebAsyncTask 并通过setXX方法更改-->
             <mvc:callable-interceptors>
                 <bean class="com.he.spring.async.MyCallableInterceptor"/>
